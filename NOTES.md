@@ -18,3 +18,33 @@
         - [] [optional/highly recommended] Fully deploy and host your project.
 
 ### Note: a user should only be able to edit and delete user-specific resources if they are logged in and the creator of that resource, with the exception of high permission users such as admin roles if implemented. For example, if we consider the example described below with models of User, DogHouse, and Review, I would only be able to edit or delete the reviews that I created.
+
+# User Story
+
+### MVP: As a user, I can:
+
+
+01. [] User:
+        - [] Sign up for an account 
+        - [] Log in and remain logged in
+        - [] Log out
+05. [] Blog Posts: 
+        - [] Create new post
+        - [] Read all posts  
+        - [] Update my posts
+        - [] Delete my posts
+06. [] Comments: 
+        - [] Create a new comment. 
+        - [] Read all comments
+        - [] Update my comments
+        - [] Delete my comments
+07. [] Categories:
+        - [] Assign a category to a blog post
+        - [] Filter existing blog post to return by category
+
+
+### Stretch: As a user, I can:
+
+<!-- 01. [] View dog houses on a map -->
+<!-- 02. [] Search dog houses based on their distance from my location, -->
+<!-- 03. [] Filter dog houses based on their average rating. -->
