@@ -54,6 +54,13 @@ class Comment(db.model, SerializerMixin):
     # user = foreign_key relationship to user
     # associate_blog_post = foreign_key relationship to blog_post
 
+class Category(db.model, SerializerMixin):
+    __tablename__ = 'category'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String, unique=True)
+    description = db.Column(db.String, unique=True)
+    # associated_blog_posts = many-to-many foreign_key relationship w/ 'blog_post' table
+
 
 
 
