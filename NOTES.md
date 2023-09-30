@@ -57,3 +57,13 @@
 
 # Notes
 01. [] Use app.route and SQLAlchemy-Serializer for server-side routing 
+
+### Short To-Do:
+01. [] Finished relationship modeling 
+02. [] Create Flask app
+03. [] Create seeds in seed.py
+04. [] Generate revision and seed db
+05. [] Create Client 
+06. [] Create client 
+07. [] Create Routes and test with Postman
+08. [] Create React app  
