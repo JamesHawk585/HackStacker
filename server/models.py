@@ -8,7 +8,7 @@ class User(db.model, SerializerMixin):
     # Ignore relationship as well
     serialize_rules = ('-_password_hash',)
 
-    __tablename__ = 'users'
+    __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String, unique=True, nullable=False)
     _password_hash = db.Column(db.String)
@@ -32,6 +32,31 @@ class User(db.model, SerializerMixin):
 
     def __repr__(self):
         return f'<User {self.username}>'
+    
+
+class blog_posts(db.Model, SerializerMixin):
+    __tablename__ = 'blog_post'
+    # Add contraints? 
+    id = db.Colum(db.Integer, primary_key=True)
+    title = db.Column(db.String)
+    publication_date = db.Column(db.DateTime, server_default=db.func.nom())
+    edited_at = db.Column(db.DateTime, onupdate=db.func.now())
+    
+    # comments = foreign_key relationship to comment
+
+class Category(db.model, SerializerMixin):
+    __tablename__ = 'comment'
+    id = db.Column(id.Integer, primary_key=True)
+    comment_content = db.Column(db.String)
+    publication_date = db.Column(db.DateTime, server_default=db.func.nom())
+    edited_at = db.Column(db.DateTime, onupdate=db.func.now())
+
+    # user = foreign_key relationship to user
+    # associate_blog_post = foreign_key relationship to blog_post
+
+
+
+
     
 
 
