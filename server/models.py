@@ -14,7 +14,8 @@ class User(db.model, SerializerMixin):
     _password_hash = db.Column(db.String)
     bio = db.Column(db.String)
 
-    # Relationship logic goes here 
+    # backref to relate blog_post to user.id 
+    blog_post = db.relationship('Blog_post', backref='user')
 
     @hybrid_property
     def password_hash(self):
@@ -34,7 +35,7 @@ class User(db.model, SerializerMixin):
         return f'<User {self.username}>'
     
 
-class blog_posts(db.Model, SerializerMixin):
+class Blog_posts(db.Model, SerializerMixin):
     __tablename__ = 'blog_post'
     # Add contraints? 
     id = db.Colum(db.Integer, primary_key=True)
@@ -43,6 +44,10 @@ class blog_posts(db.Model, SerializerMixin):
     edited_at = db.Column(db.DateTime, onupdate=db.func.now())
     
     # comments = foreign_key relationship to comment
+
+    
+    # foreign_key to relate blog_post to user.id
+    user_id = db.Column(db.Integer(), db.ForeignKey('users.id'))
 
 class Comment(db.model, SerializerMixin):
     __tablename__ = 'comment'
@@ -60,6 +65,14 @@ class Category(db.model, SerializerMixin):
     name = db.Column(db.String, unique=True)
     description = db.Column(db.String, unique=True)
     # associated_blog_posts = many-to-many foreign_key relationship w/ 'blog_post' table
+
+# In the User class
+    # blog_post = db.relationship('Blog_post', backref='user')
+
+# In the Blog_post class
+    # user_id = db.Column(db.Integer(), db.ForeignKey('users.id'))
+
+
 
 
 

@@ -19,6 +19,11 @@
 
 ### Note: a user should only be able to edit and delete user-specific resources if they are logged in and the creator of that resource, with the exception of high permission users such as admin roles if implemented. For example, if we consider the example described below with models of User, DogHouse, and Review, I would only be able to edit or delete the reviews that I created.
 
+# DB Relationship To-Do List: 
+01. [x] One user to many blog posts
+02. [] One user to many comments 
+03. [] Many blog post to many categories
+
 # User Story
 
 ### MVP: As a user, I can:
@@ -48,3 +53,7 @@
 <!-- 01. [] View dog houses on a map -->
 <!-- 02. [] Search dog houses based on their distance from my location, -->
 <!-- 03. [] Filter dog houses based on their average rating. -->
+
+
+# Notes
+01. [] Use app.route and SQLAlchemy-Serializer for server-side routing 
