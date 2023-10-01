@@ -1,7 +1,7 @@
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy import Table, Column, ForeignKey
-from sqlalchemy.orm import declarative_base, relationship
+from sqlalchemy.orm import declarative_base, relationship, validates
 
 from config import db, bcrypt
 
@@ -30,6 +30,16 @@ class User(db.model, SerializerMixin):
     blog_post = db.relationship('Blog_post', backref='user')
     comment = db.relationship('comment', backref='user')
     category = relationship("Category", secondary=join_table)
+
+    @validates('name')
+    def validate_name(self, key, name):
+        names = db.session.query(User.name).all()
+        if not name:
+            raise ValueError("Name field is required")
+        elif name in names:
+            raise ValueError("Name must be unique")
+        return name 
+
 
     @hybrid_property
     def password_hash(self):
