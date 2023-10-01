@@ -31,14 +31,14 @@ class User(db.model, SerializerMixin):
     comment = db.relationship('comment', backref='user')
     category = relationship("Category", secondary=join_table)
 
-    @validates('name')
-    def validate_name(self, key, name):
-        names = db.session.query(User.name).all()
-        if not name:
+    @validates('username')
+    def validate_name(self, key, username):
+        usernames = db.session.query(User.name).all()
+        if not username:
             raise ValueError("Name field is required")
-        elif name in names:
+        elif username in usernames:
             raise ValueError("Name must be unique")
-        return name 
+        return username 
 
 
     @hybrid_property
