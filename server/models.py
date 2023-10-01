@@ -29,7 +29,7 @@ class User(db.model, SerializerMixin):
     # backref to relate blog_post to user.id 
     blog_post = db.relationship('Blog_post', backref='user')
     comment = db.relationship('comment', backref='user')
-    category = db.relationship('category', backref='user')
+    category = relationship("Category", secondary=join_table)
 
     @hybrid_property
     def password_hash(self):
@@ -75,6 +75,7 @@ class Category(db.model, SerializerMixin):
     name = db.Column(db.String, unique=True)
     description = db.Column(db.String, unique=True)
     user = relationship("User", secondary=join_table)
+
 
 
 
