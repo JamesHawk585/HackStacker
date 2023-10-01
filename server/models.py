@@ -1,11 +1,11 @@
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy import Table, Column, ForeignKey
-from sqlalchemy.orm import declaritive_base, relationship
+from sqlalchemy.orm import declarative_base, relationship
 
 from config import db, bcrypt
 
-Base = declaritive_base
+Base = declarative_base()
 
 join_table = Table(
     "user_to_category",
@@ -57,13 +57,9 @@ class Blog_posts(db.Model, SerializerMixin):
     publication_date = db.Column(db.DateTime, server_default=db.func.nom())
     edited_at = db.Column(db.DateTime, onupdate=db.func.now())
     
-    # comments = foreign_key relationship to comment
-
-
     # foreign_key to relate blog_post to user.id
     user_id = db.Column(db.Integer(), db.ForeignKey('user.id'))
     
-
 class Comment(db.model, SerializerMixin):
     __tablename__ = 'comment'
     id = db.Column(id.Integer, primary_key=True)
@@ -73,12 +69,12 @@ class Comment(db.model, SerializerMixin):
 
     user_id = db.column(db.Integer(), db.ForeignKey('user.id'))
 
-
 class Category(db.model, SerializerMixin):
     __tablename__ = 'category'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, unique=True)
     description = db.Column(db.String, unique=True)
+    user = relationship("User", secondary=join_table)
 
 
 
