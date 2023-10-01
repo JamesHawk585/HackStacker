@@ -1,12 +1,13 @@
 # Phase 5 Project Minimum Requirements:
 
 01. [] Use a Flask/SQLAlchemy API backend with a React frontend.
-02. [] Have at least 4 models on the backend, that include the following:
-        - [] At least 1 many-to-many relationship.
+02. [x] Have at least 4 models on the backend, that include the following:
+        - [x] At least 1 many-to-many relationship.
         - [] Full CRUD actions for at least one resource, following REST conventions.
+            a. Start with blog. Full crud for comment if time allows. 
         - [] User can interact with all models, directly or indirectly (no unused models).
 03. [] Have at least 3 different client-side routes using React Router. Be sure to include a nav bar or other UI element that allows users to navigate between routes.
-04. [] Implement password hashing and authentication.
+04. [x] Implement password hashing and authentication.
 05. [] Validations implemented on frontend and backend
 06. [] Use SQLAlchemy validations to verify and protect data on the backend.
 07. [] Use forms and validation through Formik on all input.
@@ -36,13 +37,13 @@
 ### In the Comment class
     user_id = db.column(db.Integer(), db.ForeignKey('user.id'))
 
-## 03. [] Many blog post to many categories
+## 03. [x] Many blog post to many categories
 
 ### In the User class
-    category = db.relationship('category', backref='user')
+    category = relationship("Category", secondary=join_table)
 
 ### In the Category class
-    user_id = db.relationship(db.Integer(), db.ForeignKey(user.id))
+    user = relationship("User", secondary=join_table)
 
 
 

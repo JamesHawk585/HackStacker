@@ -22,9 +22,9 @@ class User(db.model, SerializerMixin):
 
     __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String, unique=True, nullable=False)
+    username = db.Column(db.String(80), unique=True, nullable=False)
     _password_hash = db.Column(db.String)
-    bio = db.Column(db.String)
+    bio = db.Column(db.String(250))
 
     # backref to relate blog_post to user.id 
     blog_post = db.relationship('Blog_post', backref='user')
@@ -53,7 +53,8 @@ class Blog_posts(db.Model, SerializerMixin):
     __tablename__ = 'blog_post'
     # Add contraints? 
     id = db.Colum(db.Integer, primary_key=True)
-    title = db.Column(db.String)
+    title = db.Column(db.String(50))
+    blog_content = db.Column(db.String(5000))
     publication_date = db.Column(db.DateTime, server_default=db.func.nom())
     edited_at = db.Column(db.DateTime, onupdate=db.func.now())
     
@@ -63,7 +64,7 @@ class Blog_posts(db.Model, SerializerMixin):
 class Comment(db.model, SerializerMixin):
     __tablename__ = 'comment'
     id = db.Column(id.Integer, primary_key=True)
-    comment_content = db.Column(db.String)
+    comment_content = db.Column(db.String(250))
     publication_date = db.Column(db.DateTime, server_default=db.func.nom())
     edited_at = db.Column(db.DateTime, onupdate=db.func.now())
 
@@ -72,8 +73,8 @@ class Comment(db.model, SerializerMixin):
 class Category(db.model, SerializerMixin):
     __tablename__ = 'category'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String, unique=True)
-    description = db.Column(db.String, unique=True)
+    name = db.Column(db.String(30), unique=True)
+    description = db.Column(db.String(50), unique=True)
     user = relationship("User", secondary=join_table)
 
 
