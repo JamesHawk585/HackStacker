@@ -40,6 +40,14 @@ class User(db.model, SerializerMixin):
             raise ValueError("Name must be unique")
         return username 
 
+    @validates('username', 'bio')
+    def validate_length(self, key, string):
+        if ( key == 'username'):
+            if len(string) >= 80:
+                raise ValueError("username must be 80 characters or less.")
+            if ( key == 'bio'):
+                raise ValueError('Bio must be 250 characters or less.')
+            return string 
 
     @hybrid_property
     def password_hash(self):
