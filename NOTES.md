@@ -20,9 +20,32 @@
 ### Note: a user should only be able to edit and delete user-specific resources if they are logged in and the creator of that resource, with the exception of high permission users such as admin roles if implemented. For example, if we consider the example described below with models of User, DogHouse, and Review, I would only be able to edit or delete the reviews that I created.
 
 # DB Relationship To-Do List: 
-01. [x] One user to many blog posts
-02. [] One user to many comments 
-03. [] Many blog post to many categories
+## 01. [x] One user to many blog posts
+
+### In the User class
+    blog_post = db.relationship('Blog_post', backref='user')
+
+### In the Blog_post class
+    user_id = db.Column(db.Integer(), db.ForeignKey('user.id'))
+
+## 02. [x] One user to many comments 
+
+### In the User class
+    comment = db.relationship('comment', backref='user')
+
+### In the Comment class
+    user_id = db.column(db.Integer(), db.ForeignKey('user.id'))
+
+## 03. [] Many blog post to many categories
+
+### In the User class
+    category = db.relationship('category', backref='user')
+
+### In the Category class
+    user_id = db.relationship(db.Integer(), db.ForeignKey(user.id))
+
+
+
 
 # User Story
 
@@ -54,7 +77,6 @@
 <!-- 02. [] Search dog houses based on their distance from my location, -->
 <!-- 03. [] Filter dog houses based on their average rating. -->
 
-
 # Notes
 01. [] Use app.route and SQLAlchemy-Serializer for server-side routing 
 
@@ -64,6 +86,5 @@
 03. [] Create seeds in seed.py
 04. [] Generate revision and seed db
 05. [] Create Client 
-06. [] Create client 
-07. [] Create Routes and test with Postman
-08. [] Create React app  
+06. [] Create Routes and test with Postman
+07. [] Create React app  

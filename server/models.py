@@ -16,6 +16,8 @@ class User(db.model, SerializerMixin):
 
     # backref to relate blog_post to user.id 
     blog_post = db.relationship('Blog_post', backref='user')
+    comment = db.relationship('comment', backref='user')
+    category = db.relationship('category', backref='user')
 
     @hybrid_property
     def password_hash(self):
@@ -45,9 +47,10 @@ class Blog_posts(db.Model, SerializerMixin):
     
     # comments = foreign_key relationship to comment
 
-    
+
     # foreign_key to relate blog_post to user.id
-    user_id = db.Column(db.Integer(), db.ForeignKey('users.id'))
+    user_id = db.Column(db.Integer(), db.ForeignKey('user.id'))
+    
 
 class Comment(db.model, SerializerMixin):
     __tablename__ = 'comment'
@@ -56,21 +59,18 @@ class Comment(db.model, SerializerMixin):
     publication_date = db.Column(db.DateTime, server_default=db.func.nom())
     edited_at = db.Column(db.DateTime, onupdate=db.func.now())
 
-    # user = foreign_key relationship to user
-    # associate_blog_post = foreign_key relationship to blog_post
+    user_id = db.column(db.Integer(), db.ForeignKey('user.id'))
+
 
 class Category(db.model, SerializerMixin):
     __tablename__ = 'category'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, unique=True)
     description = db.Column(db.String, unique=True)
-    # associated_blog_posts = many-to-many foreign_key relationship w/ 'blog_post' table
 
-# In the User class
-    # blog_post = db.relationship('Blog_post', backref='user')
+    user_id = db.Column(db.Integer(), db.ForeignKey('user.id'))
+    # This should be a many-to-many relationshyip. Look up syntax. 
 
-# In the Blog_post class
-    # user_id = db.Column(db.Integer(), db.ForeignKey('users.id'))
 
 
 
