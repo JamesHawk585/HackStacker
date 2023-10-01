@@ -1,7 +1,19 @@
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy_serializer import SerializerMixin
+from sqlalchemy import Table, Column, ForeignKey
+from sqlalchemy.orm import declaritive_base, relationship
 
 from config import db, bcrypt
+
+Base = declaritive_base
+
+join_table = Table(
+    "user_to_category",
+    Base.metadata,
+    Column("user_id", ForeignKey("user.id")),
+    Column("category_id", ForeignKey("category.id")),
+
+)
 
 class User(db.model, SerializerMixin):
 
@@ -68,8 +80,9 @@ class Category(db.model, SerializerMixin):
     name = db.Column(db.String, unique=True)
     description = db.Column(db.String, unique=True)
 
-    user_id = db.Column(db.Integer(), db.ForeignKey('user.id'))
-    # This should be a many-to-many relationshyip. Look up syntax. 
+
+
+
 
 
 
