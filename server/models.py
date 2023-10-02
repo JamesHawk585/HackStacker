@@ -14,9 +14,16 @@ join_table = Table(
 
 )
 
+
+# !!! Double check syntax of serialize_rules !!!
+
+
+
+
+
 class User(db.model, SerializerMixin):
 
-    # Ignore relationship as well
+    # Ignore relationship as well to avoid infinite loop
     serialize_rules = ('-_password_hash','-blog_post', '-comment', '-category')
 
     __tablename__ = 'user'
@@ -70,19 +77,22 @@ class Blog_posts(db.Model, SerializerMixin):
     serialize_rules = ('-user_id')
 
     __tablename__ = 'blog_post'
-    # Add contraints? 
     id = db.Colum(db.Integer, primary_key=True)
     title = db.Column(db.String(50))
     blog_content = db.Column(db.String(5000))
     publication_date = db.Column(db.DateTime, server_default=db.func.nom())
     edited_at = db.Column(db.DateTime, onupdate=db.func.now())
     
-    # foreign_key to relate blog_post to user.id
     user_id = db.Column(db.Integer(), db.ForeignKey('user.id'))
 
     @validates('title', 'blog_content')
     def validate_length(self, key, string):
-        # Finish validations here
+        if ( key == 'blog_content'):
+            if len(string) >= 5000:
+                raise ValueError("Blog posts must be 5000 characters or less.")
+            if ( key == 'title'):
+                raise ValueError('Title must be 50 characters or less.')
+            return string 
     
 class Comment(db.model, SerializerMixin):
 
