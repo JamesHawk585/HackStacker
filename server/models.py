@@ -120,6 +120,15 @@ class Category(db.model, SerializerMixin):
     name = db.Column(db.String(30), unique=True)
     description = db.Column(db.String(50), unique=True)
     user = relationship("User", secondary=join_table)
+    
+    @validates(name, description)
+    def validate_length(self, key, string):
+        if ( key == 'name'):
+            if len(string) >= 30:
+                raise ValueError("Category name must be 80 characters or less.")
+            if ( key == 'description'):
+                raise ValueError('Category description must be 250 characters or less.')
+            return string 
 
 
 
