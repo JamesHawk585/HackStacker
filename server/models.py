@@ -2,7 +2,6 @@ from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy import Table, Column, ForeignKey
 from sqlalchemy.orm import declarative_base, relationship, validates
-
 from config import db, bcrypt
 
 Base = declarative_base()
@@ -18,7 +17,7 @@ join_table = Table(
 class User(db.model, SerializerMixin):
 
     # Ignore relationship as well
-    serialize_rules = ('-_password_hash',)
+    serialize_rules = ('-_password_hash','-blog_post', '-comment', '-category')
 
     __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True)
@@ -26,7 +25,6 @@ class User(db.model, SerializerMixin):
     _password_hash = db.Column(db.String)
     bio = db.Column(db.String(250))
 
-    # backref to relate blog_post to user.id 
     blog_post = db.relationship('Blog_post', backref='user')
     comment = db.relationship('comment', backref='user')
     category = relationship("Category", secondary=join_table)
@@ -68,6 +66,9 @@ class User(db.model, SerializerMixin):
     
 
 class Blog_posts(db.Model, SerializerMixin):
+
+    serialize_rules = ('-user_id')
+
     __tablename__ = 'blog_post'
     # Add contraints? 
     id = db.Colum(db.Integer, primary_key=True)
@@ -78,8 +79,15 @@ class Blog_posts(db.Model, SerializerMixin):
     
     # foreign_key to relate blog_post to user.id
     user_id = db.Column(db.Integer(), db.ForeignKey('user.id'))
+
+    @validates('title', 'blog_content')
+    def validate_length(self, key, string):
+        # Finish validations here
     
 class Comment(db.model, SerializerMixin):
+
+    serialize_rules = ('-user_id')
+
     __tablename__ = 'comment'
     id = db.Column(id.Integer, primary_key=True)
     comment_content = db.Column(db.String(250))
@@ -89,6 +97,9 @@ class Comment(db.model, SerializerMixin):
     user_id = db.column(db.Integer(), db.ForeignKey('user.id'))
 
 class Category(db.model, SerializerMixin):
+
+    serialize_rules = ('-user')
+
     __tablename__ = 'category'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(30), unique=True)

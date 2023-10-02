@@ -8,7 +8,9 @@
         - [] User can interact with all models, directly or indirectly (no unused models).
 03. [] Have at least 3 different client-side routes using React Router. Be sure to include a nav bar or other UI element that allows users to navigate between routes.
 04. [x] Implement password hashing and authentication.
-05. [] Validations implemented on frontend and backend
+05. [] Validations implemented on:
+        - [] frontend
+        - [] backend
 06. [] Use SQLAlchemy validations to verify and protect data on the backend.
 07. [] Use forms and validation through Formik on all input.
 08. [] At least one data type validation.
@@ -82,7 +84,9 @@
 01. [] Use app.route and SQLAlchemy-Serializer for server-side routing 
 
 ### Short To-Do:
-01. [] Finished relationship modeling 
+01. [] Finish relationship modeling 
+    - Constraints
+    - Validations
 02. [] Create Flask app
 03. [] Create seeds in seed.py
 04. [] Generate revision and seed db
