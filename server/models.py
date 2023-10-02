@@ -106,6 +106,11 @@ class Comment(db.model, SerializerMixin):
 
     user_id = db.column(db.Integer(), db.ForeignKey('user.id'))
 
+    @validates('comment_content')
+    def validate_length(self, key, string):
+        if len(string) >= 250:
+            raise ValueError('Comments must be less than 250 characters in length')
+
 class Category(db.model, SerializerMixin):
 
     serialize_rules = ('-user')
