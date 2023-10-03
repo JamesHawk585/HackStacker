@@ -1,5 +1,5 @@
 from faker import Faker
-from models import User, Blog_post, Comment, Category
+from models import User, BlogPost, Comment, Category
 from config import db, app, bcrypt
 from random import randint
 
@@ -9,9 +9,9 @@ print('Seeding db... 🌱')
 
 with app.app_context():
 
-    print("Deleting all records...")
+    print("Deleting all records...❗")
     User.query.delete()
-    Blog_post.query.delete()
+    BlogPost.query.delete()
     Comment.query.delete()
     Category.query.delete()
 
@@ -21,14 +21,14 @@ with app.app_context():
     titles = []
     blog_posts = []
 
-    comments = []
+    
 
-    category_names = []
-
-
+    
 
 
-    print('Creating users...:alien: ')
+
+
+    print('Creating users...👽 ')
 
     for i in range(20):
             username = fake.first_name()
@@ -50,8 +50,8 @@ with app.app_context():
 
             db.session.add_all(users)
 
-    # Blog_post
-    print("Creating blog posts...:computer:")
+    # BlogPost
+    print("Creating blog posts...💻")
 
     for i in range (50):
         title = fake.sentence(nb_words=6)
@@ -59,7 +59,7 @@ with app.app_context():
             title = fake.sentence(nb_words=6)
         titles.append(title)
 
-        blog_post = Blog_post(
+        blog_post = BlogPost(
              title = title,
              blog_content = fake.paragraph(nb_sentences=10),
              publication_date = fake.date_time_this_year(),
@@ -71,13 +71,17 @@ with app.app_context():
             
 
 
+    comment_instances = []
+    comment_contents = []
+    
     # Comment
     print("Creating comments...🖱️")
     for i in range (30):
         comment_content = fake.sentence(nb_words=15)
-        while comment_content in comments:
+        while comment_content in comment_instances:
              comment_content = fake.sentence(nb_words=15)
-        comments.append(comment_content)
+        # comments.append(comment_content)
+        comment_contents.append(comment_content)
 
         comment_instance = Comment(
             comment_content = comment_content,
@@ -85,11 +89,18 @@ with app.app_context():
             edited_at = fake.date_this_year(),
         ) 
 
-        comments.append(comment_instance)
-        db.session.add_all(comments)
+        comment_instances.append(comment_instance)
+        # comment_instances.append(comment_instance)
+    
+    db.session.add_all(comment_instances)
+
+
+
+    category_names = []
+    categories = []
 
     # Category
-    print("Creating categories...:brain:")
+    print("Creating categories...🧠")
 
     for i in range(5):
         name = fake.word()
@@ -102,7 +113,9 @@ with app.app_context():
             description = fake.sentence(nb_words=10), 
         )
 
-        db.session.add_all(category_instance)
+        categories.append(category_instance)
 
+        # Was tring to add a string tot he db session with db.session.add_all(category_instance)
     
+    db.session.add_all(categories)
     db.session.commit()

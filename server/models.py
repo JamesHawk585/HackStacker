@@ -1,18 +1,20 @@
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy_serializer import SerializerMixin
-from sqlalchemy import Table, Column, ForeignKey
-from sqlalchemy.orm import declarative_base, relationship, validates
+from sqlalchemy.orm import relationship, validates
 from config import db, bcrypt
 
-Base = declarative_base()
 
-join_table = Table(
-    "blog_post_to_category",
-    Base.metadata,
-    Column("blog_post_id", ForeignKey("blog_post.id")),
-    Column("category_id", ForeignKey("category.id")),
+# join_table = Table(
+#     "blog_post_to_category",
+#     Base.metadata,
+#     Column("blog_post_id", ForeignKey("blog_post.id")),
+#     Column("category_id", ForeignKey("category.id")),
+# )
 
-)
+join_table = db.Table('blog_post_to_category',
+                      db.Column("blog_post_id", db.Integer, db.ForeignKey("blog_post.id")),
+                      db.Column("category_id", db.Integer, db.ForeignKey("category.id")),
+                      )
 
 
 # !!! Double check syntax of serialize_rules !!!
@@ -23,7 +25,7 @@ join_table = Table(
 
 
 
-class User(db.model, SerializerMixin):
+class User(db.Model, SerializerMixin):
 
     # Ignore relationship as well to avoid infinite loop
     # serialize_rules is a variable set equal to a tuple. Don't foret the ',' at the end if the tuple has only one value!
@@ -35,27 +37,26 @@ class User(db.model, SerializerMixin):
     _password_hash = db.Column(db.String)
     bio = db.Column(db.String(250))
 
-    blog_post = db.relationship('Blog_post', backref='user')
-    comment = db.relationship('comment', backref='user')
-    category = relationship("Category", secondary=join_table)
+    blog_posts = db.relationship('BlogPost', backref='user')
+    comments = db.relationship('Comment', backref='user')
 
     @validates('username')
     def validate_name(self, key, username):
-        usernames = db.session.query(User.name).all()
+        username_exists = db.session.query(User).filter(User.username==username).first()
         if not username:
             raise ValueError("Name field is required")
-        elif username in usernames:
+        elif username_exists:
             raise ValueError("Name must be unique")
+        elif key == 'username':
+            if len(username) >= 80:
+                raise ValueError("username must be 80 characters or less.")
         return username 
 
-    @validates('username', 'bio')
+    @validates('bio')
     def validate_length(self, key, string):
-        if ( key == 'username'):
-            if len(string) >= 80:
-                raise ValueError("username must be 80 characters or less.")
-            if ( key == 'bio'):
+        if len(string) > 250:
                 raise ValueError('Bio must be 250 characters or less.')
-            return string 
+        return string 
 
     @hybrid_property
     def password_hash(self):
@@ -75,12 +76,13 @@ class User(db.model, SerializerMixin):
         return f'<User {self.username}>'
     
 
-class Blog_post(db.Model, SerializerMixin):
+class BlogPost(db.Model, SerializerMixin):
 
     # serialize_rules = ('-user_id')
+    # Double click, hit F2 to highlight all instances of word.
 
     __tablename__ = 'blog_post'
-    id = db.Colum(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(50))
     blog_content = db.Column(db.String(5000))
     publication_date = db.Column(db.DateTime, server_default=db.func.nom())
@@ -97,24 +99,24 @@ class Blog_post(db.Model, SerializerMixin):
                 raise ValueError('Title must be 50 characters or less.')
             return string 
     
-class Comment(db.model, SerializerMixin):
+class Comment(db.Model, SerializerMixin):
 
     # serialize_rules = ('-user_id')
 
     __tablename__ = 'comment'
-    id = db.Column(id.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     comment_content = db.Column(db.String(250))
     publication_date = db.Column(db.DateTime, server_default=db.func.nom())
     edited_at = db.Column(db.DateTime, onupdate=db.func.now())
 
-    user_id = db.column(db.Integer(), db.ForeignKey('user.id'))
+    user_id = db.Column(db.Integer(), db.ForeignKey('user.id'))
 
     @validates('comment_content')
     def validate_length(self, key, string):
         if len(string) >= 250:
             raise ValueError('Comments must be less than 250 characters in length')
 
-class Category(db.model, SerializerMixin):
+class Category(db.Model, SerializerMixin):
 
     # serialize_rules = ('-user')
 
@@ -122,7 +124,7 @@ class Category(db.model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(30), unique=True)
     description = db.Column(db.String(50), unique=True)
-    user = relationship("User", secondary=join_table)
+
     
     @validates(name, description)
     def validate_length(self, key, string):
