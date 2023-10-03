@@ -7,9 +7,9 @@ from config import db, bcrypt
 Base = declarative_base()
 
 join_table = Table(
-    "user_to_category",
+    "blog_post_to_category",
     Base.metadata,
-    Column("user_id", ForeignKey("user.id")),
+    Column("blog_post_id", ForeignKey("blog_post.id")),
     Column("category_id", ForeignKey("category.id")),
 
 )

@@ -18,8 +18,15 @@ with app.app_context():
     usernames = []
     users = []
     
-    blog_posts = []
     titles = []
+    blog_posts = []
+
+    comments = []
+
+    category_names = []
+
+
+
 
     print('Creating users...:alien: ')
 
@@ -35,8 +42,12 @@ with app.app_context():
             )
 
             user.password_hash = user.username + 'password'
-
             users.append(user)
+
+            user.password_hash = username 
+            # We are calling the password_hash setter method here
+
+
             db.session.add_all(users)
 
     # Blog_post
@@ -61,9 +72,39 @@ with app.app_context():
 
 
     # Comment
+    print("Creating comments...🖱️")
+    for i in range (30):
+        comment_content = fake.sentence(nb_words=15)
+        while comment_content in comments:
+             comment_content = fake.sentence(nb_words=15)
+        comments.append(comment_content)
+
+        comment_instance = Comment(
+            comment_content = comment_content,
+            publication_date = fake.date_this_year(),
+            edited_at = fake.date_this_year(),
+        ) 
+
+        comments.append(comment_instance)
+        db.session.add_all(comments)
 
     # Category
+    print("Creating categories...:brain:")
 
-    #     user.password_hash = username # We are calling the password_hash setter method here
-    #     db.session.add(user)
-        db.session.commit()
+    for i in range(5):
+        name = fake.first_name(nb_words=2)
+        # How can I have fake category names instead of names?
+        while name in category_names:
+            name = fake.first_name(nb_words=2)
+        category_names.append(name)
+
+        category_instance = Category(
+            name = name, 
+            description = fake.sentence(nb_words=10,
+                                        ) 
+
+        )
+
+
+    
+    db.session.commit()
