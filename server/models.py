@@ -16,6 +16,8 @@ join_table = Table(
 
 
 # !!! Double check syntax of serialize_rules !!!
+# Syntax follows that of the relationship syntax. 
+
 
 
 
@@ -24,7 +26,8 @@ join_table = Table(
 class User(db.model, SerializerMixin):
 
     # Ignore relationship as well to avoid infinite loop
-    serialize_rules = ('-_password_hash','-blog_post', '-comment', '-category')
+    # serialize_rules is a variable set equal to a tuple. Don't foret the ',' at the end if the tuple has only one value!
+    serialize_rules = ('-_password_hash', '-blog_post.user', '-comment.user', '-category.user')
 
     __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True)
@@ -74,7 +77,7 @@ class User(db.model, SerializerMixin):
 
 class Blog_posts(db.Model, SerializerMixin):
 
-    serialize_rules = ('-user_id')
+    # serialize_rules = ('-user_id')
 
     __tablename__ = 'blog_post'
     id = db.Colum(db.Integer, primary_key=True)
@@ -96,7 +99,7 @@ class Blog_posts(db.Model, SerializerMixin):
     
 class Comment(db.model, SerializerMixin):
 
-    serialize_rules = ('-user_id')
+    # serialize_rules = ('-user_id')
 
     __tablename__ = 'comment'
     id = db.Column(id.Integer, primary_key=True)
@@ -113,7 +116,7 @@ class Comment(db.model, SerializerMixin):
 
 class Category(db.model, SerializerMixin):
 
-    serialize_rules = ('-user')
+    # serialize_rules = ('-user')
 
     __tablename__ = 'category'
     id = db.Column(db.Integer, primary_key=True)
@@ -144,5 +147,6 @@ class Category(db.model, SerializerMixin):
 
 
     
+
 
 
