@@ -75,7 +75,7 @@ class User(db.model, SerializerMixin):
         return f'<User {self.username}>'
     
 
-class Blog_posts(db.Model, SerializerMixin):
+class Blog_post(db.Model, SerializerMixin):
 
     # serialize_rules = ('-user_id')
 
