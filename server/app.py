@@ -54,6 +54,17 @@ def user_by_id(id):
             edited_at = request.get.form('edited_at')
         )
 
+        db.session.add(user)
+        db.session.commit()
+
+        user_dict = user.to_dict()
+
+        response = make_response(
+            jsonify(user_dict),
+            201
+        )
+
+        return response
 
 
 
