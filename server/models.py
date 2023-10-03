@@ -3,26 +3,10 @@ from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.orm import relationship, validates
 from config import db, bcrypt
 
-
-# join_table = Table(
-#     "blog_post_to_category",
-#     Base.metadata,
-#     Column("blog_post_id", ForeignKey("blog_post.id")),
-#     Column("category_id", ForeignKey("category.id")),
-# )
-
 join_table = db.Table('blog_post_to_category',
                       db.Column("blog_post_id", db.Integer, db.ForeignKey("blog_post.id")),
                       db.Column("category_id", db.Integer, db.ForeignKey("category.id")),
                       )
-
-
-# !!! Double check syntax of serialize_rules !!!
-# Syntax follows that of the relationship syntax. 
-
-
-
-
 
 
 class User(db.Model, SerializerMixin):

@@ -115,7 +115,7 @@ with app.app_context():
 
         categories.append(category_instance)
 
-        # Was tring to add a string tot he db session with db.session.add_all(category_instance)
+        # Was tring to add a string to the db session with db.session.add_all(category_instance)
     
     db.session.add_all(categories)
     db.session.commit()
