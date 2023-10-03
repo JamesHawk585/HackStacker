@@ -92,19 +92,17 @@ with app.app_context():
     print("Creating categories...:brain:")
 
     for i in range(5):
-        name = fake.first_name(nb_words=2)
-        # How can I have fake category names instead of names?
+        name = fake.word()
         while name in category_names:
-            name = fake.first_name(nb_words=2)
+            name = fake.word()
         category_names.append(name)
 
         category_instance = Category(
             name = name, 
-            description = fake.sentence(nb_words=10,
-                                        ) 
-
+            description = fake.sentence(nb_words=10), 
         )
 
+        db.session.add_all(category_instance)
 
     
     db.session.commit()
