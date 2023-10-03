@@ -20,6 +20,43 @@ from models import User, BlogPost, Comment, Category
 
 # @app.route('/')
 
+
+@app.route('/users')
+def users():
+
+    users = User.query.all()
+    user_serialized = [user.to_dict() for user in users]
+
+    response = make_response(
+        jsonify(user_serialized),
+        200
+    )
+
+    return response 
+
+@app.route('/users/<int:id>', methods=['GET', 'POST', 'PATCH', 'DELETE'])
+def user_by_id(id):
+    user = User.query.filter_by(id=id).first()
+
+    if request.method == 'GET':
+        user_serialized = user.to_dict()
+    
+        return make_response(
+            jsonify(user_serialized),
+            200
+        )
+    
+    elif request.method == 'POST':
+        user = User(
+            title = request.get.form('title'),
+            blog_content = request.get.form('blog_content'),
+            publication_date = request.get.form('publication_date'),
+            edited_at = request.get.form('edited_at')
+        )
+
+
+
+
 @app.route('/blog_posts')
 def blog_posts():
     blog_posts = BlogPost.query.all()
@@ -48,8 +85,20 @@ def blog_post_by_id(id):
         blog_post = BlogPost(
             title=request.form.get('title'),
             blog_content = request.form.get('blog_content'),
-            # Is publication date automatically generated? 
+            publication_date = request.form.get('publication_date')
         )
+
+        db.session.add(blog_post)
+        db.session.commit()
+
+        blog_post_dict = blog_post.to_dict()
+
+        response = make_response(
+            jsonify(blog_post_dict),
+            201
+        )
+
+        return response
 
     elif request.method == 'PATCH':
         for attr in request.form:
@@ -80,6 +129,8 @@ def blog_post_by_id(id):
         )
 
         return response 
+    
+    @app.route
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
