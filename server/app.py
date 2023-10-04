@@ -1,7 +1,7 @@
 from flask import make_response, jsonify, request, session
 from flask_restful import Resource
 
-from config import app, db 
+from config import app, db, api
 # This line will run the config.py file and initialize our app
 from models import User, BlogPost, Comment, Category
 from sqlalchemy.exc import IntegrityError
@@ -65,6 +65,12 @@ class Logout(Resource):
             session['user_id'] = None
             return {}, 204
         return {'error': '401 Unauthorized'}, 401
+
+api.add_resource(Signup, '/signup', endpoint='signup')
+api.add_resource(Signup, '/CheckSession', endpoint='check_session')
+api.add_resource(Signup, '/login', endpoint='login')
+api.add_resource(Signup, '/logout', endpoint='logout')
+
 
 # @app.route('/')!!!
 
