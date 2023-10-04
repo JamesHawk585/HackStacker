@@ -37,7 +37,22 @@ class Signup(Resource):
 
 # class CheckSession(Resource):
 
-# class Login(Resource):
+class Login(Resource):
+    def post(self):
+
+        request_json = request.get_json()
+
+        username = request.get_json.get('username')
+        password = request.get_json.get('password')
+
+        user = User.query.filter(User.username == username). first()
+
+        if user: 
+            if user.authenticate(password):
+                session['user_id'] = user.id
+                return user.to_dict(), 200
+            return {'error': '401 Unauthorized'}, 401
+
 
 # class Logout(Resource):
 
