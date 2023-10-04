@@ -1,3 +1,5 @@
+# !!! Test all routes in Postman !!!
+
 from flask import make_response, jsonify, request, session
 from flask_restful import Resource
 
@@ -298,7 +300,7 @@ def categories():
         200
     )
 
-@app.route('/category<int:id>', methods=['GET', 'POST', 'PATCH', 'DELETE'])
+@app.route('/category/<int:id>', methods=['GET', 'POST', 'PATCH', 'DELETE'])
 def category_by_id(id): 
     category = Category.query.filter_by(id=id).first()
 
