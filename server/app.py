@@ -72,7 +72,9 @@ api.add_resource(Signup, '/login', endpoint='login')
 api.add_resource(Signup, '/logout', endpoint='logout')
 
 
-# @app.route('/')!!!
+@app.route('/')
+def index(): 
+    return '<h1>HackStacker</h1>'
 
 
 @app.route('/users')
