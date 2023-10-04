@@ -228,7 +228,72 @@ def comment_by_id(id):
             200
         )
 
+        return response 
+
 # Category routes here 
+@app.route('/categories')
+def categories():
+    categories = Category.query.all()
+    category_serialized = [category.to_dict() for category in categories]
+
+    return make_response(
+        jsonify(category_serialized),
+        200
+    )
+
+@app.route('/category<int:id>', methods=['GET', 'POST', 'PATCH', 'DELETE'])
+def category_by_id(id): 
+    category = Category.query.filter_by(id=id).first()
+
+    if request.method == 'GET':
+        category_serialized = category.to_dict()
+
+        return make_response(
+            jsonify(category_serialized),
+            200
+        )
+    
+    elif request.method == 'POST':
+        category = Category(
+            name = request.form.get('name'),
+            description = request.form.get('description')
+        )
+
+        db.session.add(category)
+        db.session.commit()
+
+        category_dict = category.to_dict()
+
+        return make_response(
+            jsonify(category_dict),
+            201
+        )
+    
+    elif request.method == 'PATCH':
+        for attr in request.form:
+            setattr(category, attr, request.form.get(attr))
+
+            db.session.add(category)
+            db.session.commit()
+
+            category_dict = category.to_dict()
+
+            return make_response(
+                jsonify(category_dict),
+                200
+            )
+        
+    elif request.method == 'DELETE':
+        db.session.delete(category)
+        db.session.commit()
+
+        response_dict = {'message': 'category successfully deleted'}
+
+        return make_response(
+            jsonify(response_dict),
+            200
+        )
+
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
