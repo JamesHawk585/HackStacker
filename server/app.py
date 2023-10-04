@@ -1,14 +1,39 @@
-from flask import make_response, jsonify, request
-# from flask_restful import Resource
+from flask import make_response, jsonify, request, session
+from flask_restful import Resource
 
 from config import app, db 
 # This line will run the config.py file and initialize our app
 from models import User, BlogPost, Comment, Category
+from sqlalchemy.exc import IntegrityError
 
-# All routes here!
-# Using app.route()
 
-# class Signup(Resource)
+class Signup(Resource):
+    def post(self):
+
+        request_json = request.get_json()
+
+        username = request_json.get('username')
+        password = request_json.get('password')
+        bio = request_json.get('bio')
+
+        user = User(
+            username=username,
+            bio=bio
+        )
+
+        user.password_hash = password
+
+        try: 
+            db.session.add(user)
+            db.session.commit()
+
+            session['user_id'] = user.id
+            return user.to_dict(), 201
+        
+        except IntegrityError: 
+
+            return {'error': "422 Unprocessable Entity"}, 422
+
 
 # class CheckSession(Resource):
 
@@ -144,7 +169,6 @@ def blog_post_by_id(id):
             response = make_response(
                 jsonify(blog_post_dict),
                 200
-                # I think 200 is correct here? 
             )
 
             return response 
@@ -230,7 +254,7 @@ def comment_by_id(id):
 
         return response 
 
-# Category routes here 
+
 @app.route('/categories')
 def categories():
     categories = Category.query.all()
