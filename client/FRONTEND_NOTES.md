@@ -1,29 +1,29 @@
 App
 │
 ├── NavBar
-│   ├── Link to Home
-│   ├── Link to User Profile
-│   └── (Other navigation links)
+│   ├── Home.js (Shows all blog posts)
+│   ├── UserProfile.js (Shows user blog posts and details)
+│   └── Newpost.js
 │
 ├── Router
 │   ├── Route for Login
-│   │   ├── LoginForm
-│   │   └── (Authentication Logic)
-│   │   └── Redirect to Home (On successful login)
+│   │   ├── LoginForm.js
+│   │   ├──(Authentication Logic)
+│   │   ├── Home.js (On successful login)
+|   |   └── UserProfile.js 
 │   │
-│   ├── Route for Home
-│   │   ├── BlogPostList
-│   │   │   ├── BlogPostItem
-│   │   │   └── (Blog Post Data)
-│   │   └── (Fetch Blog Posts Data)
+│   ├── Home.js
+│   │   └── BlogPostList.js (displays each blog posts title, author, and publication date)
+│   │      └── BlogPostItem.js (displays full text of all individual post)
+│   │          └── Comments.js (List of all comment for a post)
+│   │              └── MakeComment.js (form to allow user to post comment)
+│   │   
 │   │
-│   ├── Route for Blog Post Details
-│       ├── UserProfile
-│       │   ├── UserPostsList
-│       │   │   ├── UserPostItem
-│       │   │   └── (User's Blog Post Data)
-│       │   └── (Fetch User's Blog Posts Data)
-│       └── (User Profile Data)
+│   └── Route Users Blog Post Details
+│       └── UserProfile.js (Displays all info in the USer class)
+│           └── UserPostsList(allows user to see a list of all their posts. Full CRUD)
+│               └── UserPostItem(Allows user to post a new blog)
+│     
 │
 └── (Authentication Logic)
 
