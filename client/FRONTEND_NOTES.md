@@ -28,5 +28,5 @@ App
 └── (Authentication Logic)
 
 npm:
-1. [] Formik
-2. [] React-bootstrap
+1. [x] Formik
+2. [x] React-bootstrap
