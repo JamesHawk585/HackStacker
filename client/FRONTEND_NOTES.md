@@ -21,8 +21,8 @@ App
 │   │
 │   └── Route Users Blog Post Details
 │       └── UserProfile.js (Displays all info in the USer class)
-│           └── UserPostsList(allows user to see a list of all their posts. Full CRUD)
-│               └── UserPostItem(Allows user to post a new blog)
+│           └── UserPostsList.js (allows user to see a list of all their posts. Full CRUD)
+│               └── UserPostItem.js (Allows user to post a new blog)
 │     
 │
 └── (Authentication Logic)
