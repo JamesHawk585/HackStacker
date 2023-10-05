@@ -10,10 +10,10 @@
 04. [x] Implement password hashing and authentication.
 05. [] Validations implemented on:
         - [] frontend
-        - [] backend
-06. [] Use SQLAlchemy validations to verify and protect data on the backend.
+        - [x] backend
+06. [x] Use SQLAlchemy validations to verify and protect data on the backend.
 07. [] Use forms and validation through Formik on all input.
-08. [] At least one data type validation.
+08. [x] At least one data type validation.
 09. [] At least one string/number format validation.
 10. [] Connect the client and server using fetch().
         - [] [optional/highly recommended] Implement something new not taught in the curriculum. (Check in with your instructor to ensure the scope of your idea is appropriate.)
