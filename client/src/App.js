@@ -1,13 +1,12 @@
 //  rafce
 
-import logo from './logo.svg';
+
 import './App.css';
+import BasicExample from './Navbar';
 
 function App() {
   return (
-  <>
-  <Navbar/>
-  </>
+  <BasicExample/>
   );
 }
 

@@ -1,19 +1,26 @@
 //  rafce
 
-import React from 'react'
+import Container from 'react-bootstrap/Container';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
+import NavDropdown from 'react-bootstrap/NavDropdown';
 
-const Navbar = () => {
+function BasicExample() {
   return (
-    <nav className='nav'>
-    <a href='/' className='site-title'>HackStacker</a>
-    <div>Navbar</div>
-    <ul> 
-        <li><a href='/home'>Home</a></li>
-        <li><a href='/userprofile'>Profile</a></li>
-        <li><a href='newpost'>New Post</a></li>
-    </ul>
-    </nav>
-  )
+    <Navbar expand="lg" className="bg-body-tertiary">
+      <Container>
+        <Navbar.Brand href="#home">HackStacker</Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="me-auto">
+            <Nav.Link href="#home">Home</Nav.Link>
+            <Nav.Link href="#profile">Profile</Nav.Link>
+            <Nav.Link href="#new-post">New Post</Nav.Link>
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
+  );
 }
 
-export default Navbar
+export default BasicExample;
