@@ -13,11 +13,11 @@
   │   │   ├── [] Home.js (On successful login)
   |   |   └── [] UserProfile.js 
   │   │
-  │   ├── [] Home.js
-  │   │   └── [] BlogPostList.js (displays each blog posts title, author, and publication date)
+  │   ├── [] Home.js (displays each blog posts title, author, and publication date)
   │   │      └── [] BlogPost.js (displays full text of all individual post)
-  │   │          └── [] Comments.js (List of all comment for a post)
-  │   │              └── [] MakeComment.js (form to allow user to post comment)
+                 [] MakeComment.js (form to allow user to post comment)
+  │   │             └── [] Comments.js (List of all comment for a post)
+  │   │                 └── [] MakeComment.js (form to allow user to post comment)
   <!--│   Focus on Home.js    -->
   <!--|   Full CRUD for blog posts. (It is a blog posting site afterall.)  -->
   │   │
