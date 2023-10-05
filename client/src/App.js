@@ -1,12 +1,12 @@
 //  rafce
 
-
-import './App.css';
-import BasicExample from './Navbar';
+import React from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import SiteNav from './Navbar';
 
 function App() {
   return (
-  <BasicExample/>
+  <SiteNav/>
   );
 }
 
