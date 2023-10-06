@@ -1,7 +1,11 @@
 from faker import Faker
 from models import User, BlogPost, Comment, Category
 from config import db, app, bcrypt
-from random import randint
+import ipdb 
+import random
+
+
+
 
 fake = Faker()
 
@@ -44,11 +48,14 @@ with app.app_context():
             user.password_hash = user.username + 'password'
             users.append(user)
 
+            user_id = user.id
+
             user.password_hash = username 
             # We are calling the password_hash setter method here
 
 
             db.session.add_all(users)
+            db.session.commit()
 
     # BlogPost
     print("Creating blog posts...💻")
@@ -60,39 +67,49 @@ with app.app_context():
         titles.append(title)
 
         blog_post = BlogPost(
-             title = title,
-             blog_content = fake.paragraph(nb_sentences=10),
-             publication_date = fake.date_time_this_year(),
-             edited_at = fake.date_time_this_year() 
+            title = title,
+            blog_content = fake.paragraph(nb_sentences=10),
+            publication_date = fake.date_time_this_year(),
+            edited_at = fake.date_time_this_year(), 
+            user_id = random.choice(users).id
+            # Pick and random user from the users list. 
         )
         blog_posts.append(blog_post)
         
         db.session.add_all(blog_posts)
+        # Commit on every Class that has a foreign relationship. 
+        db.session.commit()
+
+
             
 
 
     comment_instances = []
     comment_contents = []
     
-    # Comment
+    # Comment is returning null for comment content and user_id
     print("Creating comments...🖱️")
     for i in range (30):
         comment_content = fake.sentence(nb_words=15)
         while comment_content in comment_instances:
-             comment_content = fake.sentence(nb_words=15)
+            comment_content = fake.sentence(nb_words=15)
         # comments.append(comment_content)
         comment_contents.append(comment_content)
+
+        print(comment_content)
 
         comment_instance = Comment(
             comment_content = comment_content,
             publication_date = fake.date_this_year(),
             edited_at = fake.date_this_year(),
+            user_id = random.choice(users).id
         ) 
 
+        db.session.add(comment_instance)
         comment_instances.append(comment_instance)
         # comment_instances.append(comment_instance)
-    
-    db.session.add_all(comment_instances)
+
+    db.session.commit()
 
 
 

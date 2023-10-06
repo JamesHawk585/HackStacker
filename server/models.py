@@ -81,7 +81,7 @@ class BlogPost(db.Model, SerializerMixin):
                 raise ValueError("Blog posts must be 5000 characters or less.")
             if ( key == 'title'):
                 raise ValueError('Title must be 50 characters or less.')
-            return string 
+        return string 
     
 class Comment(db.Model, SerializerMixin):
 
@@ -99,6 +99,7 @@ class Comment(db.Model, SerializerMixin):
     def validate_length(self, key, string):
         if len(string) >= 250:
             raise ValueError('Comments must be less than 250 characters in length')
+        return string
 
 class Category(db.Model, SerializerMixin):
 
@@ -117,7 +118,7 @@ class Category(db.Model, SerializerMixin):
                 raise ValueError("Category name must be 80 characters or less.")
             if ( key == 'description'):
                 raise ValueError('Category description must be 250 characters or less.')
-            return string 
+        return string 
 
 
 

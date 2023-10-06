@@ -6,6 +6,8 @@ import Card from 'react-bootstrap/Card';
 
 function BlogPostCard({ post }) {
 
+  console.log('post:', post)
+
     return (
       <Card style={{ width: '18rem' }}>
         <Card.Body>

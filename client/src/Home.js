@@ -19,6 +19,7 @@ const Home = () => {
         <BlogPostCard key={post.id} post={post}/>
       )); 
 
+      console.log(blogPosts)
     return (
       <div>
         {/* <BlogPostCard/> */}
