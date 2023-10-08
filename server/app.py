@@ -74,6 +74,26 @@ class CommentSchema(ma.SQLAlchemySchema):
 comment_schema = CommentSchema()
 comments_schema = CommentSchema(many=True)
 
+class CategorySchema(ma.SQLAlchemySchema):
+            
+    class Meta:
+        model = Category
+            
+    name = ma.auto_field()
+    description = ma.auto_field()
+            
+    url = ma.Hyperlinks(
+        {
+            "self": ma.URLFor(
+                "category_by_id",
+                values=dict(id="<id>")),
+            "collection": ma.URLFor("categories"),
+        }
+    )
+
+category_schema = CategorySchema()
+categories_schema = CategorySchema(many=True)
+
 
 class Signup(Resource):
     def post(self):
@@ -345,10 +365,11 @@ def comment_by_id(id):
 @app.route('/categories')
 def categories():
     categories = Category.query.all()
-    category_serialized = [category.to_dict() for category in categories]
+    # category_serialized = [category.to_dict() for category in categories]
 
     return make_response(
-        jsonify(category_serialized),
+        # jsonify(category_serialized),
+        categories_schema.dump(categories),
         200
     )
 
@@ -357,10 +378,11 @@ def category_by_id(id):
     category = Category.query.filter_by(id=id).first()
 
     if request.method == 'GET':
-        category_serialized = category.to_dict()
+        # category_serialized = category.to_dict()
 
         return make_response(
-            jsonify(category_serialized),
+            # jsonify(category_serialized),
+            category_schema.dump(category),
             200
         )
     
@@ -373,10 +395,11 @@ def category_by_id(id):
         db.session.add(category)
         db.session.commit()
 
-        category_dict = category.to_dict()
+        # category_dict = category.to_dict()
 
         return make_response(
-            jsonify(category_dict),
+            # jsonify(category_dict),
+            category_schema.dump(category),
             201
         )
     
@@ -387,10 +410,11 @@ def category_by_id(id):
             db.session.add(category)
             db.session.commit()
 
-            category_dict = category.to_dict()
+            # category_dict = category.to_dict()
 
             return make_response(
-                jsonify(category_dict),
+                # jsonify(category_dict),
+                category_schema.dump(category),
                 200
             )
         
@@ -398,10 +422,11 @@ def category_by_id(id):
         db.session.delete(category)
         db.session.commit()
 
-        response_dict = {'message': 'category successfully deleted'}
+        # response_dict = {'message': 'category successfully deleted'}
 
         return make_response(
-            jsonify(response_dict),
+            # jsonify(response_dict),
+            category_schema.dump(category),
             200
         )
 
