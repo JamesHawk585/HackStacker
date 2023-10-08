@@ -13,7 +13,13 @@ class User(db.Model, SerializerMixin):
 
     # Ignore relationship as well to avoid infinite loop
     # serialize_rules is a variable set equal to a tuple. Don't foret the ',' at the end if the tuple has only one value!
-    serialize_rules = ('-_password_hash', '-blog_post.user', '-comment.user', '-category.user')
+    # serialize_rules = ('-_password_hash', '-blog_post.user', '-comment.user', '-category.user')
+    # May need to change to:
+    serialize_rules = ('-_password_hash', '-blog_post.user_id', '-comment.user_id')
+
+
+    # 'blog_post': user_id = db.Column(db.Integer(), db.ForeignKey('user.id'))
+    # 'comment': user_id = db.Column(db.Integer(), db.ForeignKey('user.id'))
 
     __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True)
@@ -62,7 +68,7 @@ class User(db.Model, SerializerMixin):
 
 class BlogPost(db.Model, SerializerMixin):
 
-    # serialize_rules = ('-user_id')
+    serialize_rules = ('-user_id')
     # Double click, hit F2 to highlight all instances of word.
 
     __tablename__ = 'blog_post'
@@ -85,7 +91,7 @@ class BlogPost(db.Model, SerializerMixin):
     
 class Comment(db.Model, SerializerMixin):
 
-    # serialize_rules = ('-user_id')
+    serialize_rules = ('-user_id')
 
     __tablename__ = 'comment'
     id = db.Column(db.Integer, primary_key=True)
@@ -102,8 +108,6 @@ class Comment(db.Model, SerializerMixin):
         return string
 
 class Category(db.Model, SerializerMixin):
-
-    # serialize_rules = ('-user')
 
     __tablename__ = 'category'
     id = db.Column(db.Integer, primary_key=True)

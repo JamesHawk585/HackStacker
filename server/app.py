@@ -1,11 +1,13 @@
 # !!! Test all routes in Postman !!!
 
-from flask import make_response, jsonify, request, session
+from flask import make_response, jsonify, request, session, Flask
+from flask_sqlalchemy import SQLAlchemy
 from flask_restful import Resource
+from flask_migrate import Migrate
 
 from config import app, db, api
 # This line will run the config.py file and initialize our app
-from models import User, BlogPost, Comment, Category
+from models import User, BlogPost, Comment, Category, db
 from sqlalchemy.exc import IntegrityError
 
 

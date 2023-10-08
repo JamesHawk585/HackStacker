@@ -93,3 +93,16 @@
 05. [] Create Client 
 06. [] Create Routes and test with Postman
 07. [] Create React app  
+
+
+ # Bug Fix Notes
+1. Changes were made to the validations in models.py. The return statement for the strings were moved outside of the nested if statements.
+2. A changes was made to the user_id attribute in the blog_post shcema. Validations were prohibiting users from being created after used_id 17. 
+3. Ran seed.py to reseed db.  
+4. Blog_post, user, and comments routes in app.py throw a 500 error. 
+'/' route and catergory/categories routes function as intended. 
+
+
+Suggestions: 
+1. Remember to disallow related objects in serialize_rules. 
+2. Always include a trailing comma if the tuple contains only one value. 

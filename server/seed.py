@@ -4,9 +4,6 @@ from config import db, app, bcrypt
 import ipdb 
 import random
 
-
-
-
 fake = Faker()
 
 print('Seeding db... 🌱')
@@ -24,13 +21,6 @@ with app.app_context():
     
     titles = []
     blog_posts = []
-
-    
-
-    
-
-
-
 
     print('Creating users...👽 ')
 
