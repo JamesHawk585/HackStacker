@@ -53,6 +53,27 @@ class BlogPostSchema(ma.SQLAlchemySchema):
 blog_post_schema = BlogPostSchema()
 blog_posts_schema = BlogPostSchema(many=True)
 
+class CommentSchema(ma.SQLAlchemySchema):
+        
+    class Meta:
+        model = Comment
+        
+    comment_content = ma.auto_field()
+    publication_date = ma.auto_field()
+    edited_at = ma.auto_field()
+        
+    url = ma.Hyperlinks(
+        {
+            "self": ma.URLFor(
+                "comment_by_id",
+                values=dict(id="<id>")),
+            "collection": ma.URLFor("comments"),
+        }
+    )
+
+comment_schema = CommentSchema()
+comments_schema = CommentSchema(many=True)
+
 
 class Signup(Resource):
     def post(self):
@@ -193,10 +214,8 @@ def user_by_id(id):
 @app.route('/blog_posts')
 def blog_posts():
     blog_posts = BlogPost.query.all()
-    # blog_posts_serialized = [blog_post.to_dict() for blog_post in blog_posts]
 
     response = make_response(
-        # jsonify(blog_posts_serialized),
         blog_posts_schema.dump(blog_posts),
         200
     )
@@ -208,10 +227,8 @@ def blog_post_by_id(id):
     blog_post = BlogPost.query.filter_by(id=id).first()
 
     if request.method == 'GET':
-        # blog_post_serialized = blog_post.to_dict()
 
         return make_response(
-            # jsonify(blog_post_serialized),
             blog_post_schema.dump(blog_post),
             200
         )
@@ -226,10 +243,8 @@ def blog_post_by_id(id):
         db.session.add(blog_post)
         db.session.commit()
 
-        blog_post_dict = blog_post.to_dict()
 
         response = make_response(
-            # jsonify(blog_post_dict),
             blog_post_schema.dump(blog_post),
             201
         )
@@ -243,10 +258,8 @@ def blog_post_by_id(id):
             db.session.add(blog_post)
             db.session.commit()
 
-            # blog_post_dict = blog_post.to_dict()
 
             response = make_response(
-                # jsonify(blog_post_dict),
                 blog_post_schema.dump(blog_post),
                 200
             )
@@ -257,10 +270,8 @@ def blog_post_by_id(id):
         db.session.delete(blog_post) 
         db.session.commit()
 
-        # response_dict = {'message': 'record successfully deleted'}
 
         response = make_response(
-            # jsonify(response_dict),
             blog_post_schema.dump(blog_post),
             200
         )
@@ -272,10 +283,9 @@ def blog_post_by_id(id):
 def comments():
 
     comments = Comment.query.all()
-    comment_serialized = [comment.to_dict() for comment in comments]
 
     return make_response(
-        jsonify(comment_serialized),
+        comments_schema.dump(comments),
         200
     )
 
@@ -284,10 +294,9 @@ def comment_by_id(id):
     comment = Comment.query.filter_by(id=id).first()
 
     if request.method == 'GET':
-        comment_serialized = comment.to_dict()
 
         return make_response(
-            jsonify(comment_serialized),
+            comment_schema.dump(comment),
             200
         )
     
@@ -301,10 +310,9 @@ def comment_by_id(id):
         db.session.add(comment)
         db.session.commit()
 
-        comment_dict = comment.to_dict()
 
         return make_response(
-            jsonify(comment_dict),
+            comments_schema.dump(comment),
             201
         )
     
@@ -315,10 +323,9 @@ def comment_by_id(id):
             db.session.add(comment)
             db.session.commit()
 
-            comment_dict = comment.to_dict()
 
             return make_response(
-                jsonify(comment_dict),
+                comments_schema.dump(comment),
                 200
             ) 
         
@@ -326,10 +333,9 @@ def comment_by_id(id):
         db.session.delete(comment)
         db.session.commit()
 
-        response_dict = {'message': 'comment successfully deleted'}
 
         response = make_response(
-            jsonify(response_dict),
+            comments_schema.dump(comment),
             200
         )
 
