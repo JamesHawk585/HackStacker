@@ -5,11 +5,50 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_restful import Resource
 from flask_migrate import Migrate
 
-from config import app, db, api
+from config import app, db, api, ma
 # This line will run the config.py file and initialize our app
 from models import User, BlogPost, Comment, Category, db
 from sqlalchemy.exc import IntegrityError
 
+class UserSchema(ma.SQLAlchemySchema):
+
+    class Meta:
+        model = User
+    
+    username = ma.auto_field()
+    bio = ma.auto_field()
+
+
+    url = ma.Hyperlinks(
+        {
+            "self": ma.URLFor(
+                "user_by_id",
+                values=dict(id="<id>")),
+            "collection": ma.URLFor("users"),
+        }
+    )
+
+class BlogPostSchema(ma.SQLAlchemySchema):
+    
+        class Meta:
+            model = BlogPost
+    
+        title = ma.auto_field()
+        blog_content = ma.auto_field()
+        publication_date = ma.auto_field()
+        edited_at = ma.auto_field()
+    
+        url = ma.Hyperlinks(
+            {
+                "self": ma.URLFor(
+                    "blog_post_by_id",
+                    values=dict(id="<id>")),
+                "collection": ma.URLFor("blog_posts"),
+            }
+        )
+
+user_schema = UserSchema()
+users_schema = UserSchema(many=True)
 
 class Signup(Resource):
     def post(self):
@@ -87,10 +126,11 @@ def index():
 def users():
 
     users = User.query.all()
-    user_serialized = [user.to_dict() for user in users]
+    # user_serialized = [user.to_dict() for user in users]
 
     response = make_response(
-        jsonify(user_serialized),
+        # jsonify(user_serialized),
+        users_schema.dump(users),
         200
     )
 
@@ -101,10 +141,11 @@ def user_by_id(id):
     user = User.query.filter_by(id=id).first()
 
     if request.method == 'GET':
-        user_serialized = user.to_dict()
+        # user_serialized = user.to_dict()
     
         return make_response(
-            jsonify(user_serialized),
+            # jsonify(user_serialized),
+            user_schema.dump(user),
             200
         )
     
@@ -119,10 +160,11 @@ def user_by_id(id):
         db.session.add(user)
         db.session.commit()
 
-        user_dict = user.to_dict()
+        # user_dict = user.to_dict()
 
         response = make_response(
-            jsonify(user_dict),
+            # jsonify(user_dict),
+            user_schema.dump(user),
             201
         )
 
@@ -135,10 +177,11 @@ def user_by_id(id):
             db.session.add(user)
             db.session.commit()
 
-            user_dict = user.to_dict()
+            # user_dict = user.to_dict()
 
             return make_response(
-                jsonify(user_dict),
+                # jsonify(user_dict),
+                user_schema.dump(user),
                 200
             )
 
@@ -146,10 +189,11 @@ def user_by_id(id):
         db.session.delete(user)
         db.session.commit()
 
-        response_dict = {'message': 'user successfully deleted'}
+        # response_dict = {'message': 'user successfully deleted'}
 
         return response(
-            jsonify(response_dict),
+            # jsonify(response_dict),
+            user_schema.dump(user),
             200
         )
 
