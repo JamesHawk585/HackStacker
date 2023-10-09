@@ -19,7 +19,9 @@ import {
   Route,
   Link
 } from "react-router-dom";
-import NavBar from "NavBar"; 
+import NavBar from "./NavBar"; 
+import Profile from "./Profile"
+import PostBlog from"./PostBlog
 
 
 //  rc/App.js
@@ -27,17 +29,42 @@ import NavBar from "NavBar";
 function App() {
 
   return (
-    <div>
-      <NavBar />
-      <Switch>
-        <Route path="/Home">
-          <Home home={Home} />
-        </Route>
-        <Route exact path="/">
-          <div>HackStacker</div>
-        </Route>
-      </Switch>
-    </div>
-  )
+    <Router>
+      <div>
+        <ul>
+          <li>
+            <Link to="/">HackStacker</Link>
+          </li>
+          <li>
+            <Link to="/profile">Profile</Link>
+          </li>
+          <li>
+            <Link to="/newpost">New Post</Link>
+          </li>
+        </ul>
+
+        <hr />
+
+        {/*
+          A <Switch> looks through all its children <Route>
+          elements and renders the first one whose path
+          matches the current URL. Use a <Switch> any time
+          you have multiple routes, but you want only one
+          of them to render at a time
+        */}
+        <Switch>
+          <Route exact path="/">
+            <Home />
+          </Route>
+          <Route path="/profile">
+            <Profile />
+          </Route>
+          <Route path="/newpost">
+            <Postblog />
+          </Route>
+        </Switch>
+      </div>
+    </Router>
+  );
 }
   export default App;
