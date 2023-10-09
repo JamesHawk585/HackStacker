@@ -196,32 +196,21 @@ def index():
 
 
 
-@app.route('/users')
+@app.route('/users', methods =['GET', 'POST'] )
 def users():
-
-    users = User.query.all()
-
-    response = make_response(
-        users_schema.dump(users),
-        200
-    )
-
-    return response 
-
-@app.route('/users/<int:id>', methods=['GET', 'POST', 'PATCH', 'DELETE'])
-def user_by_id(id):
-    user = User.query.filter_by(id=id).first()
-
     if request.method == 'GET':
-    
-        return make_response(
-            user_schema.dump(user),
+
+        users = User.query.all()
+
+        response = make_response(
+            users_schema.dump(users),
             200
         )
+        return response 
     
     elif request.method == 'POST':
         user = User(
-            title = request.form.get('title'),
+            username = request.form.get('username'),
             blog_content = request.form.get('blog_content'),
             publication_date = request.form.get('publication_date'),
             edited_at = request.form.get('edited_at')
@@ -236,6 +225,39 @@ def user_by_id(id):
         )
 
         return response
+
+
+
+@app.route('/users/<int:id>', methods=['GET', 'PATCH', 'DELETE'])
+def user_by_id(id):
+    # user = User.query.filter_by(id=id).first()
+
+    if request.method == 'GET':
+
+        user = User.query.filter_by(id=id).first()
+    
+        return make_response(
+            user_schema.dump(user),
+            200
+        )
+    
+    # elif request.method == 'POST':
+    #     user = User(
+    #         username = request.form.get('username'),
+    #         blog_content = request.form.get('blog_content'),
+    #         publication_date = request.form.get('publication_date'),
+    #         edited_at = request.form.get('edited_at')
+    #     )
+
+    #     db.session.add(user)
+    #     db.session.commit()
+
+    #     response = make_response(
+    #         user_schema.dump(user),
+    #         201
+    #     )
+
+    #     return response
     
     elif request.method == 'PATCH':
         for attr in request.form:
@@ -250,10 +272,11 @@ def user_by_id(id):
             )
 
     elif request.method == 'DELETE':
+        user = User.query.filter_by(id=id).first()
         db.session.delete(user)
         db.session.commit()
 
-        return response(
+        return make_response(
             user_schema.dump(user),
             200
         )

@@ -13,7 +13,7 @@ function BlogPostCard({ post }) {
         <Card.Body>
           <Card.Title>{post.title}</Card.Title>
             <Card.Text>Author: {post.author}</Card.Text>
-            <Card.Text>Publication Date: {post.date} </Card.Text>
+            <Card.Text>Publication Date: {post.publication_date} </Card.Text>
           <Button variant="primary">Read Post</Button>
         </Card.Body>
       </Card>
