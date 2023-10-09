@@ -20,8 +20,8 @@ import {
   Link
 } from "react-router-dom";
 import NavBar from "./NavBar"; 
-import Profile from "./Profile"
-import PostBlog from"./PostBlog
+import Profile from "./Profile";
+import PostBlog from "./PostBlog"
 
 
 //  rc/App.js
@@ -59,8 +59,8 @@ function App() {
           <Route path="/profile">
             <Profile />
           </Route>
-          <Route path="/newpost">
-            <Postblog />
+          <Route path="/PostBlog">
+            <PostBlog />
           </Route>
         </Switch>
       </div>
