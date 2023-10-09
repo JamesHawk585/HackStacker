@@ -10,37 +10,34 @@
 // What is best practice for naming my files? It's a mess. 
 // What is the difference between a navbar and react router?
 
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import SiteNav from './Navbar';
-import Postblog from './Postblog';
-import Profile from './Profile';
 import Home from './Home';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
+import NavBar from "NavBar"; 
 
+
+//  rc/App.js
+  // Line 25:8:  'NavBar' is not defined
 function App() {
-  console.log(window.location)
-
-
-  switch((window.location.pathname)) {
-    case "/":
-      Component = Home;
-      break;
-    
-    case "/profile":
-      Component = Profile;
-      break; 
- 
-    case "/new-post":
-      Component = Postblog;
-      break;
-  }
 
   return (
-  <>
-  <SiteNav/>
-  <Component/>
-  </>
-  );
+    <div>
+      <NavBar />
+      <Switch>
+        <Route path="/Home">
+          <Home home={Home} />
+        </Route>
+        <Route exact path="/">
+          <div>HackStacker</div>
+        </Route>
+      </Switch>
+    </div>
+  )
 }
-
-export default App;
+  export default App;
