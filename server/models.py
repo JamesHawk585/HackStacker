@@ -11,16 +11,6 @@ join_table = db.Table('blog_post_to_category',
 
 class User(db.Model):
 
-    # Ignore relationship as well to avoid infinite loop
-    # serialize_rules is a variable set equal to a tuple. Don't foret the ',' at the end if the tuple has only one value!
-    # serialize_rules = ('-_password_hash', '-blog_post.user', '-comment.user', '-category.user')
-    # May need to change to:
-    # serialize_rules = ('-_password_hash', '-blog_post.user_id', '-comment.user_id')
-
-
-    # 'blog_post': user_id = db.Column(db.Integer(), db.ForeignKey('user.id'))
-    # 'comment': user_id = db.Column(db.Integer(), db.ForeignKey('user.id'))
-
     __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)

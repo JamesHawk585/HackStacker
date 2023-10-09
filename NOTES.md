@@ -1,12 +1,15 @@
+  <!-- Double click, hit F2 to highlight all instances of word. -->
+  <!-- rafce -->
+
 # Phase 5 Project Minimum Requirements:
 
-01. [] Use a Flask/SQLAlchemy API backend with a React frontend.
+01. [x] Use a Flask/SQLAlchemy API backend with a React frontend.
 02. [x] Have at least 4 models on the backend, that include the following:
         - [x] At least 1 many-to-many relationship.
         - [] Full CRUD actions for at least one resource, following REST conventions.
             a. Start with blog. Full crud for comment if time allows. 
         - [] User can interact with all models, directly or indirectly (no unused models).
-03. [] Have at least 3 different client-side routes using React Router. Be sure to include a nav bar or other UI element that allows users to navigate between routes.
+03. [x] Have at least 3 different client-side routes using React Router. Be sure to include a nav bar or other UI element that allows users to navigate between routes.
 04. [x] Implement password hashing and authentication.
 05. [] Validations implemented on:
         - [] frontend
@@ -14,41 +17,13 @@
 06. [x] Use SQLAlchemy validations to verify and protect data on the backend.
 07. [] Use forms and validation through Formik on all input.
 08. [x] At least one data type validation.
-09. [] At least one string/number format validation.
-10. [] Connect the client and server using fetch().
+09. [x] At least one string/number format validation.
+10. [x] Connect the client and server using fetch().
         - [] [optional/highly recommended] Implement something new not taught in the curriculum. (Check in with your instructor to ensure the scope of your idea is appropriate.)
         - [] [optional/highly recommended] Implement useContext or Redux.
         - [] [optional/highly recommended] Fully deploy and host your project.
 
 ### Note: a user should only be able to edit and delete user-specific resources if they are logged in and the creator of that resource, with the exception of high permission users such as admin roles if implemented. For example, if we consider the example described below with models of User, DogHouse, and Review, I would only be able to edit or delete the reviews that I created.
-
-# DB Relationship To-Do List: 
-## 01. [x] One user to many blog posts
-
-### In the User class
-    blog_post = db.relationship('Blog_post', backref='user')
-
-### In the Blog_post class
-    user_id = db.Column(db.Integer(), db.ForeignKey('user.id'))
-
-## 02. [x] One user to many comments 
-
-### In the User class
-    comment = db.relationship('comment', backref='user')
-
-### In the Comment class
-    user_id = db.column(db.Integer(), db.ForeignKey('user.id'))
-
-## 03. [x] Many blog post to many categories
-
-### In the User class
-    category = relationship("Category", secondary=join_table)
-
-### In the Category class
-    user = relationship("User", secondary=join_table)
-
-
-
 
 # User Story
 
@@ -74,64 +49,43 @@
         - [] Filter existing blog post to return by category
 
 
-### Stretch: As a user, I can:
-
-<!-- 01. [] View dog houses on a map -->
-<!-- 02. [] Search dog houses based on their distance from my location, -->
-<!-- 03. [] Filter dog houses based on their average rating. -->
-
-# Notes
-01. [] Use app.route and SQLAlchemy-Serializer for server-side routing 
-
-### Short To-Do:
-01. [] Finish relationship modeling 
-    - Constraints
-    - Validations
-02. [] Create Flask app
-03. [] Create seeds in seed.py
-04. [] Generate revision and seed db
-05. [] Create Client 
-06. [] Create Routes and test with Postman
-07. [] Create React app  
-
-
- # Bug Fix Notes
-1. Changes were made to the validations in models.py. The return statement for the strings were moved outside of the nested if statements.
-2. A changes was made to the user_id attribute in the blog_post shcema. Validations were prohibiting users from being created after used_id 17. 
-3. Ran seed.py to reseed db.  
-4. Blog_post, user, and comments routes in app.py throw a 500 error. 
-'/' route and catergory/categories routes function as intended. 
+### Short To-Do: 
+01. [] Test server-side routes with Postman
+02. [] Build out BlogPost.js (GET, PATCH, DELETE)
+03. [] Build out PostBlog.js (POST with Formik)
+04. [] Login
+05. [] Logout
+06. [] Signup
+07. [] Sessions and Cookies
 
 
 # Routes
-1. users():
+### 1. users():
     [x] GET
-2. user_by_id():
+### 2. user_by_id():
     [x] GET
-    [] POST
-    [] PATCH
-    [] DELETE
+    [] POST (ValueError: username field is required)
+    [] PATCH (TypeError: The view function for 'user_by_id' did not return a valid response. The function either returned None or ended without a return statement.)
 
-3. blog_posts():
+    [x] DELETE 
+### 3. blog_posts():
     [x] GET
-4. blog_post_by_id():
+### 4. blog_post_by_id():
     [x] GET
-    [] POST (broken)
-    [] PATCH
-    [] DELETE
+    [] POST (TypeError: object of type 'NoneType' has no len())
+    [] PATCH (TypeError: The view function for 'blog_post_by_id' did not return a valid response. The function either returned None or ended without a return statement.)
+    [x] DELETE
 
-5. comments():
+### 5. comments():
     [x] GET
-6. comment_by_id():
+### 6. comment_by_id():
     [x] GET
-    [] POST (broken)
-    [] PATCH
-    [] DELETE
+    [] POST (TypeError: object of type 'NoneType' has no len())
+    [] PATCH (TypeError: The view function for 'comment_by_id' did not return a valid response. The function either returned None or ended without a return statement.)
+    [] DELETE (TypeError: 'Comment' object is not iterable)
 
-7. categories():
+### 7. categories():
     [x] GET
-8. category_by_id():
+### 8. category_by_id():
     [x]GET    
     [x] POST (Returns null despite values being passed into keys)
-    [] PATCH
-    [] DELETE

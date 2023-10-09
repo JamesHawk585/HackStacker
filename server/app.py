@@ -160,6 +160,12 @@ api.add_resource(Signup, '/CheckSession', endpoint='check_session')
 api.add_resource(Signup, '/login', endpoint='login')
 api.add_resource(Signup, '/logout', endpoint='logout')
 
+@app.route("/cookies", methods=['GET'])
+def cookies():
+    response = make_response({'message': "cookies route"}, 200)
+
+    return response 
+
 
 @app.route('/')
 def index(): 
@@ -309,12 +315,11 @@ def blog_post_by_id(id):
         blog_post = BlogPost(
             title=request.form.get('title'),
             blog_content = request.form.get('blog_content'),
-            publication_date = request.form.get('publication_date')
+            # publication_date = request.form.get('publication_date')
         )
 
         db.session.add(blog_post)
         db.session.commit()
-
 
         response = make_response(
             blog_post_schema.dump(blog_post),
