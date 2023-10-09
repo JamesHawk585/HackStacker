@@ -103,6 +103,35 @@
 '/' route and catergory/categories routes function as intended. 
 
 
-Suggestions: 
-1. Remember to disallow related objects in serialize_rules. 
-2. Always include a trailing comma if the tuple contains only one value. 
+# Routes
+1. users():
+    [x] GET
+2. user_by_id():
+    [x] GET
+    [] POST
+    [] PATCH
+    [] DELETE
+
+3. blog_posts():
+    [x] GET
+4. blog_post_by_id():
+    [x] GET
+    [] POST (broken)
+    [] PATCH
+    [] DELETE
+
+5. comments():
+    [x] GET
+6. comment_by_id():
+    [x] GET
+    [] POST (broken)
+    [] PATCH
+    [] DELETE
+
+7. categories():
+    [x] GET
+8. category_by_id():
+    [x]GET    
+    [x] POST (Returns null despite values being passed into keys)
+    [] PATCH
+    [] DELETE

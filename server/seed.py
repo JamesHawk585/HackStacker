@@ -86,7 +86,6 @@ with app.app_context():
         # comments.append(comment_content)
         comment_contents.append(comment_content)
 
-        print(comment_content)
 
         comment_instance = Comment(
             comment_content = comment_content,

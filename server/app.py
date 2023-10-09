@@ -10,6 +10,7 @@ from config import app, db, api, ma
 from models import User, BlogPost, Comment, Category, db
 from sqlalchemy.exc import IntegrityError
 
+
 class UserSchema(ma.SQLAlchemySchema):
 
     class Meta:
@@ -17,6 +18,8 @@ class UserSchema(ma.SQLAlchemySchema):
     
     username = ma.auto_field()
     bio = ma.auto_field()
+    blog_posts = ma.auto_field()
+    comments = ma.auto_field()
 
 
     url = ma.Hyperlinks(
@@ -122,7 +125,6 @@ class Signup(Resource):
 
             return {'error': "422 Unprocessable Entity"}, 422
 
-
 class CheckSession(Resource):
     def get(self):
         if session.get('user_id'):
@@ -146,9 +148,6 @@ class Login(Resource):
                 return user.to_dict(), 200
             return {'error': '401 Unauthorized'}, 401
 
-
-# !!! No Logout Class !!!
-
 class Logout(Resource):
     def delete(self):
         if session.get('user_id'):
@@ -165,6 +164,36 @@ api.add_resource(Signup, '/logout', endpoint='logout')
 @app.route('/')
 def index(): 
     return '<h1>HackStacker</h1>'
+
+# class Index(Resource):
+#     def get(self):
+
+#         response_dict = {
+#             "index": "Welcome to HackStacker!",
+#         }
+
+#         response = make_response(
+#             response_dict,
+#             200
+#         )
+
+#         return response
+    
+# api.add_resource(Index, '/')
+
+# class Users(Resource):
+#     def get(self):
+#         users = User.query.all()
+
+#         response = make_response(
+#             users_schema.dump(users)
+#         )
+
+#         return response 
+    
+# api.add_resource(Users, '/users')
+
+
 
 
 @app.route('/users')
@@ -192,15 +221,14 @@ def user_by_id(id):
     
     elif request.method == 'POST':
         user = User(
-            title = request.get.form('title'),
-            blog_content = request.get.form('blog_content'),
-            publication_date = request.get.form('publication_date'),
-            edited_at = request.get.form('edited_at')
+            title = request.form.get('title'),
+            blog_content = request.form.get('blog_content'),
+            publication_date = request.form.get('publication_date'),
+            edited_at = request.form.get('edited_at')
         )
 
         db.session.add(user)
         db.session.commit()
-
 
         response = make_response(
             user_schema.dump(user),
@@ -216,7 +244,6 @@ def user_by_id(id):
             db.session.add(user)
             db.session.commit()
 
-
             return make_response(
                 user_schema.dump(user),
                 200
@@ -230,6 +257,8 @@ def user_by_id(id):
             user_schema.dump(user),
             200
         )
+
+
 
 @app.route('/blog_posts')
 def blog_posts():
@@ -365,10 +394,8 @@ def comment_by_id(id):
 @app.route('/categories')
 def categories():
     categories = Category.query.all()
-    # category_serialized = [category.to_dict() for category in categories]
 
     return make_response(
-        # jsonify(category_serialized),
         categories_schema.dump(categories),
         200
     )
@@ -378,10 +405,8 @@ def category_by_id(id):
     category = Category.query.filter_by(id=id).first()
 
     if request.method == 'GET':
-        # category_serialized = category.to_dict()
 
         return make_response(
-            # jsonify(category_serialized),
             category_schema.dump(category),
             200
         )
@@ -395,10 +420,7 @@ def category_by_id(id):
         db.session.add(category)
         db.session.commit()
 
-        # category_dict = category.to_dict()
-
         return make_response(
-            # jsonify(category_dict),
             category_schema.dump(category),
             201
         )
@@ -410,10 +432,8 @@ def category_by_id(id):
             db.session.add(category)
             db.session.commit()
 
-            # category_dict = category.to_dict()
 
             return make_response(
-                # jsonify(category_dict),
                 category_schema.dump(category),
                 200
             )
@@ -422,10 +442,8 @@ def category_by_id(id):
         db.session.delete(category)
         db.session.commit()
 
-        # response_dict = {'message': 'category successfully deleted'}
 
         return make_response(
-            # jsonify(response_dict),
             category_schema.dump(category),
             200
         )
