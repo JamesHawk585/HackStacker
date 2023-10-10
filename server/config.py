@@ -12,8 +12,10 @@ from flask_marshmallow import Marshmallow
 
 app = Flask(__name__)
 
-# !!! Look up secret key
-app.secret_key = 'YOUR_APP_SECRET_HERE' # In the terminal, run: python -c 'import os; print(os.urandom(16))'
+# Generating Secret Key:
+# In the terminal, run: python -c 'import os; print(os.urandom(16))'
+
+app.secret_key = b'\xbep/TF\x19.eh)v}\xb1\x9a\x9fO' # In the terminal, run: python -c 'import os; print(os.urandom(16))'
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False

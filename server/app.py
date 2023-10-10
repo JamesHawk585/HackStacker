@@ -167,14 +167,15 @@ def expiration_date(delay):
     expire_date = expire_date + datetime.timedelta(days=delay)
     return expire_date
 
-
 @app.route("/cookies", methods=['GET'])
 def cookies():
-    # import ipdb; ipdb.set_trace()
     response = make_response({'message': "cookies route"}, 200)
-    response.set_cookie("current_user", "jmhw", expires=expiration_date(30), httponly=True)
+    if request.cookies["current_user"]:
+        return response
+    else: 
+        response.set_cookie("current_user", "jmhw", expires=expiration_date(30), httponly=True)
 
-    return response 
+
 
 
 @app.route('/')

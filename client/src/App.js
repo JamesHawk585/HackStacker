@@ -21,7 +21,7 @@ function App() {
     .then(response => response.json())
     .then(data => {
       console.log(data)
-      console.log(document.cookies)
+      console.log(document.cookie)
     })
   }, []);
 
