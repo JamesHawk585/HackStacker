@@ -66,8 +66,8 @@ class CommentSchema(ma.SQLAlchemySchema):
         model = Comment
         
     comment_content = ma.auto_field()
-    publication_date = ma.auto_field()
-    edited_at = ma.auto_field()
+    # publication_date = ma.auto_field()
+    # edited_at = ma.auto_field()
         
     url = ma.Hyperlinks(
         {
@@ -232,25 +232,6 @@ def user_by_id(id):
         print(response)
         return response 
     
-    # elif request.method == 'POST':
-    #     user = User(
-    #         username = request.get_json('username'),
-    #         blog_content = request.get_json('blog_content'),
-    #         publication_date = request.get_json('publication_date'),
-    #         edited_at = request.get_json('edited_at')
-    #     )
-
-
-    #     db.session.add(user)
-    #     db.session.commit()
-
-    #     response = make_response(
-    #         user_schema.dump(user),
-    #         201
-    #     )
-
-    #     return response
-    
     elif request.method == 'PATCH':
         for attr in request.form:
             setattr(user, attr, request.get_json(attr))
@@ -275,34 +256,25 @@ def user_by_id(id):
 
 
 
-@app.route('/blog_posts')
+@app.route('/blog_posts', methods=['GET', 'POST'])
 def blog_posts():
-    blog_posts = BlogPost.query.all()
-
-    response = make_response(
-        blog_posts_schema.dump(blog_posts),
-        200
-    )
-
-    return response 
-
-# form data object
-
-@app.route('/blog_posts/<int:id>', methods=['GET', 'POST', 'PATCH', 'DELETE'])
-def blog_post_by_id(id):
-    blog_post = BlogPost.query.filter_by(id=id).first()
-
     if request.method == 'GET':
 
-        return make_response(
-            blog_post_schema.dump(blog_post),
+        blog_posts = BlogPost.query.all()
+
+        response = make_response(
+            blog_posts_schema.dump(blog_posts),
             200
         )
+        return response
     
     elif request.method == 'POST':
+        json_dict = request.get_json()
+
         blog_post = BlogPost(
-            title=request.get_json('title'),
-            blog_content = request.get_json('blog_content'),
+            title = json_dict['title'],
+            blog_content = json_dict['blog_content'],
+
         )
 
         db.session.add(blog_post)
@@ -314,6 +286,39 @@ def blog_post_by_id(id):
         )
 
         return response
+
+
+
+# form data object
+
+@app.route('/blog_posts/<int:id>', methods=['GET', 'PATCH', 'DELETE'])
+def blog_post_by_id(id):
+    blog_post = BlogPost.query.filter_by(id=id).first()
+
+    if request.method == 'GET':
+
+        return make_response(
+            blog_post_schema.dump(blog_post),
+            200
+        )
+    
+    # elif request.method == 'POST':
+    #     json_dict = request.get_json()
+
+    #     blog_post = BlogPost(
+    #         title = json_dict['title'],
+    #         blog_content = json_dict['blog_content'],
+    #     )
+
+    #     db.session.add(blog_post)
+    #     db.session.commit()
+
+    #     response = make_response(
+    #         blog_post_schema.dump(blog_post),
+    #         201
+    #     )
+
+    #     return response
 
     elif request.method == 'PATCH':
         for attr in request.form:
@@ -343,17 +348,34 @@ def blog_post_by_id(id):
         return response 
     
 
-@app.route('/comments')
+@app.route('/comments', methods=['GET', 'POST'])
 def comments():
+    if request.method == 'GET':
+        comments = Comment.query.all()
 
-    comments = Comment.query.all()
+        return make_response(
+            comments_schema.dump(comments),
+            200
+        )
 
-    return make_response(
-        comments_schema.dump(comments),
-        200
-    )
+    elif request.method == 'POST':
+        json_dict = request.get_json()
+        comment = Comment(
+            comment_content = json_dict['comment_content'],
+            # publication_date = json_dict['publication_date'],
+            # edited_at = json_dict['edited_at']
+        )
 
-@app.route('/comment/<int:id>', methods=['GET', 'PATCH', 'POST', 'DELETE'])
+        db.session.add(comment)
+        db.session.commit()
+
+
+        return make_response(
+            comments_schema.dump(comment),
+            201
+        )
+
+@app.route('/comment/<int:id>', methods=['GET', 'PATCH', 'DELETE'])
 def comment_by_id(id):
     comment = Comment.query.filter_by(id=id).first()
 
@@ -364,21 +386,6 @@ def comment_by_id(id):
             200
         )
     
-    elif request.method == 'POST':
-        comment = Comment(
-            comment_content = request.get_json('comment_content'),
-            publication_date = request.get_json('publication_date'),
-            edited_at = request.get_json('edited_at')
-    )
-
-        db.session.add(comment)
-        db.session.commit()
-
-
-        return make_response(
-            comments_schema.dump(comment),
-            201
-        )
     
     elif request.method == 'PATCH':
         for attr in request.form:
@@ -406,30 +413,21 @@ def comment_by_id(id):
         return response 
 
 
-@app.route('/categories')
+@app.route('/categories', methods=['GET','POST'])
 def categories():
-    categories = Category.query.all()
-
-    return make_response(
-        categories_schema.dump(categories),
-        200
-    )
-
-@app.route('/category/<int:id>', methods=['GET', 'POST', 'PATCH', 'DELETE'])
-def category_by_id(id): 
-    category = Category.query.filter_by(id=id).first()
-
     if request.method == 'GET':
+        categories = Category.query.all()
 
         return make_response(
-            category_schema.dump(category),
+            categories_schema.dump(categories),
             200
         )
-    
+
     elif request.method == 'POST':
+        json_dict = request.get_json()
         category = Category(
-            name = request.get_json('name'),
-            description = request.get_jsonv('description')
+            name = json_dict['name'],
+            description = json_dict['description']
         )
 
         db.session.add(category)
@@ -438,6 +436,18 @@ def category_by_id(id):
         return make_response(
             category_schema.dump(category),
             201
+        )
+    
+
+@app.route('/category/<int:id>', methods=['GET', 'PATCH', 'DELETE'])
+def category_by_id(id): 
+    category = Category.query.filter_by(id=id).first()
+
+    if request.method == 'GET':
+
+        return make_response(
+            category_schema.dump(category),
+            200
         )
     
     elif request.method == 'PATCH':
