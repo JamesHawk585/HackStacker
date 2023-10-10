@@ -1,6 +1,6 @@
 //  rafce
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Home from './Home';
 import {
@@ -8,12 +8,23 @@ import {
   Switch,
   Route,
   Link
-} from "react-router-dom";
+} 
+from "react-router-dom";
 import NavBar from "./NavBar"; 
 import Profile from "./Profile";
 import PostBlog from "./PostBlog"
 
 function App() {
+
+  useEffect(() => {
+    fetch('./cookies')
+    .then(response => response.json())
+    .then(data => {
+      console.log(data)
+      console.log(document.cookies)
+    })
+  }, []);
+
 
   return (
     <Router>

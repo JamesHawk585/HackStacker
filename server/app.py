@@ -4,6 +4,8 @@ from flask import make_response, jsonify, request, session, Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_restful import Resource
 from flask_migrate import Migrate
+import ipdb
+import datetime 
 
 from config import app, db, api, ma
 # This line will run the config.py file and initialize our app
@@ -160,9 +162,17 @@ api.add_resource(Signup, '/CheckSession', endpoint='check_session')
 api.add_resource(Signup, '/login', endpoint='login')
 api.add_resource(Signup, '/logout', endpoint='logout')
 
+def expiration_date(delay):
+    expire_date = datetime.datetime.now()
+    expire_date = expire_date + datetime.timedelta(days=delay)
+    return expire_date
+
+
 @app.route("/cookies", methods=['GET'])
 def cookies():
+    # import ipdb; ipdb.set_trace()
     response = make_response({'message': "cookies route"}, 200)
+    response.set_cookie("current_user", "jmhw", expires=expiration_date(30), httponly=True)
 
     return response 
 
