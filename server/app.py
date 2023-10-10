@@ -236,6 +236,8 @@ def user_by_id(id):
         for attr in request.form:
             setattr(user, attr, request.get_json(attr))
 
+            ipdb.set_trace()
+
             db.session.add(user)
             db.session.commit()
 
@@ -301,24 +303,6 @@ def blog_post_by_id(id):
             blog_post_schema.dump(blog_post),
             200
         )
-    
-    # elif request.method == 'POST':
-    #     json_dict = request.get_json()
-
-    #     blog_post = BlogPost(
-    #         title = json_dict['title'],
-    #         blog_content = json_dict['blog_content'],
-    #     )
-
-    #     db.session.add(blog_post)
-    #     db.session.commit()
-
-    #     response = make_response(
-    #         blog_post_schema.dump(blog_post),
-    #         201
-    #     )
-
-    #     return response
 
     elif request.method == 'PATCH':
         for attr in request.form:
@@ -346,7 +330,7 @@ def blog_post_by_id(id):
         )
 
         return response 
-    
+
 
 @app.route('/comments', methods=['GET', 'POST'])
 def comments():

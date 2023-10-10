@@ -64,7 +64,7 @@
     [x] GET
 ### 2. user_by_id():
     [x] GET
-    [] POST (ValueError: username field is required)
+    [x] POST (ValueError: username field is required)
     [] PATCH (TypeError: The view function for 'user_by_id' did not return a valid response. The function either returned None or ended without a return statement.)
 
     [x] DELETE 
@@ -89,3 +89,7 @@
 ### 8. category_by_id():
     [x]GET    
     [x] POST (Returns null despite values being passed into keys)
+
+
+# Possible Root Causes:
+1. [] SQLAlchemySchema does not match 
