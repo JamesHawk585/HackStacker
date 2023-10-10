@@ -180,6 +180,7 @@ def cookies():
 def index(): 
     return '<h1>HackStacker</h1>'
 
+
 @app.route('/users', methods =['GET', 'POST'] )
 def users():
     if request.method == 'GET':
@@ -193,11 +194,12 @@ def users():
         return response 
     
     elif request.method == 'POST':
+        json_dict = request.get_json()
 
         user = User(
             
-            username = request.get_json('username'),
-            bio = request.get_json('bio'),
+            username = json_dict['username'],
+            bio = json_dict['bio'],
             # blog_posts = request.get_json("blog_posts"),
             # comments = request.get_json("comments")
             # use request.get_json()
@@ -210,7 +212,7 @@ def users():
             user_schema.dump(user),
             201
         )
-        ipdb.set_trace()    
+
 
         return response
 
