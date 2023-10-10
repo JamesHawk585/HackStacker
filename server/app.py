@@ -1,4 +1,7 @@
 # !!! Test all routes in Postman !!!
+# Ipdb is triggered when a route housing a set_trace() is hit in postman.
+# Slack Thompson repo if you are still having issues. 
+# Schedule another one on one. 
 
 from flask import make_response, jsonify, request, session, Flask
 from flask_sqlalchemy import SQLAlchemy
@@ -8,7 +11,6 @@ import ipdb
 import datetime 
 
 from config import app, db, api, ma
-# This line will run the config.py file and initialize our app
 from models import User, BlogPost, Comment, Category, db
 from sqlalchemy.exc import IntegrityError
 
@@ -170,48 +172,13 @@ def expiration_date(delay):
 @app.route("/cookies", methods=['GET'])
 def cookies():
     response = make_response({'message': "cookies route"}, 200)
-    if request.cookies["current_user"]:
-        return response
-    else: 
-        response.set_cookie("current_user", "jmhw", expires=expiration_date(30), httponly=True)
+    return response
 
-
-
+    #     response.set_cookie("current_user", "jmhw", expires=expiration_date(30), httponly=True)
 
 @app.route('/')
 def index(): 
     return '<h1>HackStacker</h1>'
-
-# class Index(Resource):
-#     def get(self):
-
-#         response_dict = {
-#             "index": "Welcome to HackStacker!",
-#         }
-
-#         response = make_response(
-#             response_dict,
-#             200
-#         )
-
-#         return response
-    
-# api.add_resource(Index, '/')
-
-# class Users(Resource):
-#     def get(self):
-#         users = User.query.all()
-
-#         response = make_response(
-#             users_schema.dump(users)
-#         )
-
-#         return response 
-    
-# api.add_resource(Users, '/users')
-
-
-
 
 @app.route('/users', methods =['GET', 'POST'] )
 def users():
@@ -226,11 +193,14 @@ def users():
         return response 
     
     elif request.method == 'POST':
+
         user = User(
-            username = request.form.get('username'),
-            blog_content = request.form.get('blog_content'),
-            publication_date = request.form.get('publication_date'),
-            edited_at = request.form.get('edited_at')
+            
+            username = request.get_json('username'),
+            bio = request.get_json('bio'),
+            # blog_posts = request.get_json("blog_posts"),
+            # comments = request.get_json("comments")
+            # use request.get_json()
         )
 
         db.session.add(user)
@@ -240,6 +210,7 @@ def users():
             user_schema.dump(user),
             201
         )
+        ipdb.set_trace()    
 
         return response
 
@@ -247,24 +218,26 @@ def users():
 
 @app.route('/users/<int:id>', methods=['GET', 'PATCH', 'DELETE'])
 def user_by_id(id):
-    # user = User.query.filter_by(id=id).first()
 
     if request.method == 'GET':
 
         user = User.query.filter_by(id=id).first()
     
-        return make_response(
+        response = make_response(
             user_schema.dump(user),
             200
         )
+        print(response)
+        return response 
     
     # elif request.method == 'POST':
     #     user = User(
-    #         username = request.form.get('username'),
-    #         blog_content = request.form.get('blog_content'),
-    #         publication_date = request.form.get('publication_date'),
-    #         edited_at = request.form.get('edited_at')
+    #         username = request.get_json('username'),
+    #         blog_content = request.get_json('blog_content'),
+    #         publication_date = request.get_json('publication_date'),
+    #         edited_at = request.get_json('edited_at')
     #     )
+
 
     #     db.session.add(user)
     #     db.session.commit()
@@ -278,7 +251,7 @@ def user_by_id(id):
     
     elif request.method == 'PATCH':
         for attr in request.form:
-            setattr(user, attr, request.form.get(attr))
+            setattr(user, attr, request.get_json(attr))
 
             db.session.add(user)
             db.session.commit()
@@ -311,6 +284,8 @@ def blog_posts():
 
     return response 
 
+# form data object
+
 @app.route('/blog_posts/<int:id>', methods=['GET', 'POST', 'PATCH', 'DELETE'])
 def blog_post_by_id(id):
     blog_post = BlogPost.query.filter_by(id=id).first()
@@ -324,9 +299,8 @@ def blog_post_by_id(id):
     
     elif request.method == 'POST':
         blog_post = BlogPost(
-            title=request.form.get('title'),
-            blog_content = request.form.get('blog_content'),
-            # publication_date = request.form.get('publication_date')
+            title=request.get_json('title'),
+            blog_content = request.get_json('blog_content'),
         )
 
         db.session.add(blog_post)
@@ -341,7 +315,7 @@ def blog_post_by_id(id):
 
     elif request.method == 'PATCH':
         for attr in request.form:
-            setattr(blog_post, attr, request.form.get(attr))
+            setattr(blog_post, attr, request.get_json(attr))
 
             db.session.add(blog_post)
             db.session.commit()
@@ -390,9 +364,9 @@ def comment_by_id(id):
     
     elif request.method == 'POST':
         comment = Comment(
-            comment_content = request.form.get('comment_content'),
-            publication_date = request.form.get('publication_date'),
-            edited_at = request.form.get('edited_at')
+            comment_content = request.get_json('comment_content'),
+            publication_date = request.get_json('publication_date'),
+            edited_at = request.get_json('edited_at')
     )
 
         db.session.add(comment)
@@ -406,7 +380,7 @@ def comment_by_id(id):
     
     elif request.method == 'PATCH':
         for attr in request.form:
-            setattr(comment, attr, request.form.get(attr))
+            setattr(comment, attr, request.get_json(attr))
 
             db.session.add(comment)
             db.session.commit()
@@ -452,8 +426,8 @@ def category_by_id(id):
     
     elif request.method == 'POST':
         category = Category(
-            name = request.form.get('name'),
-            description = request.form.get('description')
+            name = request.get_json('name'),
+            description = request.get_jsonv('description')
         )
 
         db.session.add(category)
@@ -466,7 +440,7 @@ def category_by_id(id):
     
     elif request.method == 'PATCH':
         for attr in request.form:
-            setattr(category, attr, request.form.get(attr))
+            setattr(category, attr, request.get_json(attr))
 
             db.session.add(category)
             db.session.commit()
