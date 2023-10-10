@@ -15,6 +15,16 @@ import Profile from "./Profile";
 import PostBlog from "./PostBlog"
 
 function App() {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    fetch('/check_session')
+    .then(response => {
+      if (response.ok) {
+        response.json().then(user => setUser(user));
+      }
+    });
+  }, []);
 
   useEffect(() => {
     fetch('./cookies')
@@ -25,6 +35,7 @@ function App() {
     })
   }, []);
 
+  if (!user) return <Home onLogin={setUser} />;
 
   return (
     <Router>

@@ -66,8 +66,6 @@ class CommentSchema(ma.SQLAlchemySchema):
         model = Comment
         
     comment_content = ma.auto_field()
-    # publication_date = ma.auto_field()
-    # edited_at = ma.auto_field()
         
     url = ma.Hyperlinks(
         {
@@ -174,7 +172,7 @@ def cookies():
     response = make_response({'message': "cookies route"}, 200)
     return response
 
-    #     response.set_cookie("current_user", "jmhw", expires=expiration_date(30), httponly=True)
+# response.set_cookie("current_user", "jmhw", expires=expiration_date(30), httponly=True)
 
 @app.route('/')
 def index(): 
@@ -200,9 +198,6 @@ def users():
             
             username = json_dict['username'],
             bio = json_dict['bio'],
-            # blog_posts = request.get_json("blog_posts"),
-            # comments = request.get_json("comments")
-            # use request.get_json()
         )
 
         db.session.add(user)
@@ -346,8 +341,6 @@ def comments():
         json_dict = request.get_json()
         comment = Comment(
             comment_content = json_dict['comment_content'],
-            # publication_date = json_dict['publication_date'],
-            # edited_at = json_dict['edited_at']
         )
 
         db.session.add(comment)
