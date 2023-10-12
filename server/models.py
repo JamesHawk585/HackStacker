@@ -58,16 +58,12 @@ class User(db.Model):
 
 class BlogPost(db.Model):
 
-    # Double click, hit F2 to highlight all instances of word.
-
     __tablename__ = 'blog_post'
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(50))
     blog_content = db.Column(db.String(5000))
     publication_date = db.Column(db.DateTime, server_default=db.func.now())
-    # publication_date = db.Column(db.String)
     edited_at = db.Column(db.DateTime, onupdate=db.func.now())
-    # edited_at = db.Column(db.String)
     
     user_id = db.Column(db.Integer(), db.ForeignKey('user.id'))
 

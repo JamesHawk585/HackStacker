@@ -104,6 +104,8 @@ categories_schema = CategorySchema(many=True)
 class Signup(Resource):
     def post(self):
 
+        # password validations 
+
         request_json = request.get_json()
 
         username=request_json['username']
@@ -176,15 +178,56 @@ def cookies():
 
 
     return response
-
-        # response.set_cookie("current_user", "jmhw", expires=expiration_date(30), httponly=True)
+# response.set_cookie("current_user", "jmhw", expires=expiration_date(30), httponly=True)
 @app.route('/')
 def index(): 
     return '<h1>HackStacker</h1>'
 
 
+
+
+
+@app.route('/users/<int:id>', methods=['GET', 'PATCH', 'DELETE'])
+def user_by_id(id):
+        user = User.query.filter_by(id=id).first()
+        if request.method == 'GET':
+
+    
+            response = make_response(
+                user_schema.dump(user),
+                200
+            )
+            print(response)
+            return response 
+    
+        elif request.method == 'PATCH':
+            for attr in request.get_json():
+                # ipdb.set_trace()
+                setattr(user, attr, request.get_json()[attr])
+
+                db.session.add(user)
+                db.session.commit()
+        
+                return make_response(
+                    user_schema.dump(user),
+                    200
+                )
+
+
+        elif request.method == 'DELETE':
+            user = User.query.filter_by(id=id).first()
+            db.session.delete(user)
+            db.session.commit()
+
+            return make_response(
+                user_schema.dump(user),
+                200
+            )
+
+
 @app.route('/users', methods =['GET', 'POST'] )
 def users():
+    # ipdb.set_trace()
     if request.method == 'GET':
 
         users = User.query.all()
@@ -214,47 +257,6 @@ def users():
 
 
         return response
-
-
-
-@app.route('/users/<int:id>', methods=['GET', 'PATCH', 'DELETE'])
-def user_by_id(id):
-
-    if request.method == 'GET':
-
-        user = User.query.filter_by(id=id).first()
-    
-        response = make_response(
-            user_schema.dump(user),
-            200
-        )
-        print(response)
-        return response 
-    
-    elif request.method == 'PATCH':
-        for attr in request.form:
-            setattr(user, attr, request.get_json(attr))
-
-            db.session.add(user)
-            db.session.commit()
-            ipdb.set_trace()
-            return make_response(
-                user_schema.dump(user),
-                200
-            )
-
-
-    elif request.method == 'DELETE':
-        user = User.query.filter_by(id=id).first()
-        db.session.delete(user)
-        db.session.commit()
-
-        return make_response(
-            user_schema.dump(user),
-            200
-        )
-
-
 
 @app.route('/blog_posts', methods=['GET', 'POST'])
 def blog_posts():
