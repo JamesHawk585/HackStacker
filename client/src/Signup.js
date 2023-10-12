@@ -1,101 +1,153 @@
 import React, { useState } from "react";
-import { Button, Error, Input, FormField, Label, Textarea } from "../styles";
+import { Formik, Form, ErrorMessage } from "formik";
+import React from "react";
+import "./style.css";
+import { Formik, Form, ErrorMessage } from "formik";
+import TextField from "./components/TextField";
+import * as Yup from "yup";
 
-function SignUpForm({ onLogin }) {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [passwordConfirmation, setPasswordConfirmation] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
-  const [bio, setBio] = useState("");
-  const [errors, setErrors] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+// function SignUpForm({ onLogin }) {
+//   const [username, setUsername] = useState("");
+//   const [password, setPassword] = useState("");
+//   const [passwordConfirmation, setPasswordConfirmation] = useState("");
+//   const [bio, setBio] = useState("");
+//   const [errors, setErrors] = useState([]);
+//   const [isLoading, setIsLoading] = useState(false);
 
-  function handleSubmit(e) {
-    e.preventDefault();
-    setErrors([]);
-    setIsLoading(true);
-    fetch("/signup", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        username,
-        password,
-        password_confirmation: passwordConfirmation,
-        image_url: imageUrl,
-        bio,
-      }),
-    }).then((r) => {
-      setIsLoading(false);
-      if (r.ok) {
-        r.json().then((user) => onLogin(user));
-      } else {
-        r.json().then((err) => setErrors(err.errors));
-      }
+//   function handleSubmit(e) {
+//     e.preventDefault();
+//     setErrors([]);
+//     setIsLoading(true);
+//     fetch("/signup", {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//       body: JSON.stringify({
+//         username,
+//         password,
+//         password_confirmation: passwordConfirmation,
+//         bio,
+//       }),
+//     }).then((r) => {
+//       setIsLoading(false);
+//       if (r.ok) {
+//         r.json().then((user) => onLogin(user));
+//       } else {
+//         r.json().then((err) => setErrors(err.errors));
+//       }
+//     });
+//   }
+
+import React, { useState } from "react";
+import { Formik, Form, ErrorMessage } from "formik";
+import React from "react";
+import "./style.css";
+import { Formik, Form, ErrorMessage } from "formik";
+import TextField from "./components/TextField";
+import * as Yup from "yup";
+
+export default function SignUpForm() {
+    const validate = Yup.object({
+      firstName: Yup.string().required("Firstname Required!"),
+      lastName: Yup.string(),
+      email: Yup.string().email("Email is invalid!").required("Email Required!"),
+      password: Yup.string()
+        .min(4, "Password must be minimum 4 digits!")
+        .required("Password Required!"),
+      confirmPassword: Yup.string()
+        .oneOf([Yup.ref("password"), null], "Password must match!")
+        .required("Confirm password is reqired!"),
+      age: Yup.number()
+        .min(14, "Age must be minimum 14 Years!")
+        .required("Age must be required!"),
     });
-  }
-
+  
   return (
-    <form onSubmit={handleSubmit}>
-      <FormField>
-        <Label htmlFor="username">Username</Label>
-        <Input
-          type="text"
-          id="username"
-          autoComplete="off"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-      </FormField>
-      <FormField>
-        <Label htmlFor="password">Password</Label>
-        <Input
-          type="password"
-          id="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          autoComplete="current-password"
-        />
-      </FormField>
-      <FormField>
-        <Label htmlFor="password">Password Confirmation</Label>
-        <Input
-          type="password"
-          id="password_confirmation"
-          value={passwordConfirmation}
-          onChange={(e) => setPasswordConfirmation(e.target.value)}
-          autoComplete="current-password"
-        />
-      </FormField>
-      <FormField>
-        <Label htmlFor="imageUrl">Profile Image</Label>
-        <Input
-          type="text"
-          id="imageUrl"
-          value={imageUrl}
-          onChange={(e) => setImageUrl(e.target.value)}
-        />
-      </FormField>
-      <FormField>
-        <Label htmlFor="bio">Bio</Label>
-        <Textarea
-          rows="3"
-          id="bio"
-          value={bio}
-          onChange={(e) => setBio(e.target.value)}
-        />
-      </FormField>
-      <FormField>
-        <Button type="submit">{isLoading ? "Loading..." : "Sign Up"}</Button>
-      </FormField>
-      <FormField>
-        {errors.map((err) => (
-          <Error key={err}>{err}</Error>
-        ))}
-      </FormField>
-    </form>
+    <div>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validate}
+        onSubmit={(values) => {
+          alert(JSON.stringify(values, null, 2));
+        }}
+      >
+        {(formik) => (
+          <div>
+            <h1 className="">Signup</h1>
+            <Form className="form p-3">
+              <TextField
+                type="text"
+                label="Firstname"
+                name="firstName"
+                placeholder="Lorem"
+              />
+              <TextField
+                type="text"
+                name="lastName"
+                label="Lastname"
+                placeholder="Ipsum"
+              />
+              <TextField
+                type="email"
+                name="email"
+                label="Email"
+                placeholder="loremipsum@gmail.com"
+              />
+              <TextField
+                type="text"
+                name="password"
+                label="Password"
+                placeholder="qwert@123"
+              />
+              <div className="mb-2">
+                <label htmlFor="confirmPassword">Confirm Password</label>
+                <input
+                  id="confirmPassword"
+                  className={`form-control shadow-none ${
+                    formik.touched.confirmPassword &&
+                    formik.errors.confirmPassword &&
+                    "is-invalid"
+                  }`}
+                  type="text"
+                  name="confirmPassword"
+                  placeholder="confirm password..."
+                  {...formik.getFieldProps("confirmPassword")}
+                />
+                <ErrorMessage
+                  component="div"
+                  name="confirmPassword"
+                  className="error"
+                />
+              </div>
+              <TextField
+                type="number"
+                name="age"
+                label="Age"
+                placeholder="19"
+              />
+              <button className="btn btn-dark m-3" type="submit">
+                Register
+              </button>
+              <button className="btn btn-primary m-3" type="reset">
+                Reset
+              </button>
+            </Form>
+          </div>
+        )}
+      </Formik>
+    </div>
   );
 }
 
-export default SignUpForm;
+const initialValues = {
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    age: "",
+    confirmPassword: "",
+  };
+  
+//   Use React Bootstrap
+  

@@ -105,15 +105,15 @@ class Signup(Resource):
 
         request_json = request.get_json()
 
-        username = request_json.get('username')
-        password = request_json.get('password')
-        bio = request_json.get('bio')
+        username=request_json['username']
+        password=request_json['password']
+        bio=request_json['bio']
 
         user = User(
             username=username,
             bio=bio
         )
-
+        # ipdb.set_trace()
         user.password_hash = password
 
         try: 
@@ -122,6 +122,7 @@ class Signup(Resource):
 
             session['user_id'] = user.id
             return user.to_dict(), 201
+            
         
         except IntegrityError: 
 
@@ -139,8 +140,11 @@ class Login(Resource):
 
         request_json = request.get_json()
 
-        username = request_json.get('username')
-        password = request_json.get('password')
+        # username = request_json.get('username')
+        # password = request_json.get('password')
+        username = request_json['username']
+        password = request_json['password']
+
 
         user = User.query.filter(User.username == username). first()
 
@@ -170,10 +174,11 @@ def expiration_date(delay):
 @app.route("/cookies", methods=['GET'])
 def cookies():
     response = make_response({'message': "cookies route"}, 200)
+
+
     return response
 
-# response.set_cookie("current_user", "jmhw", expires=expiration_date(30), httponly=True)
-
+        # response.set_cookie("current_user", "jmhw", expires=expiration_date(30), httponly=True)
 @app.route('/')
 def index(): 
     return '<h1>HackStacker</h1>'
@@ -231,15 +236,14 @@ def user_by_id(id):
         for attr in request.form:
             setattr(user, attr, request.get_json(attr))
 
-            ipdb.set_trace()
-
             db.session.add(user)
             db.session.commit()
-
+            ipdb.set_trace()
             return make_response(
                 user_schema.dump(user),
                 200
             )
+
 
     elif request.method == 'DELETE':
         user = User.query.filter_by(id=id).first()

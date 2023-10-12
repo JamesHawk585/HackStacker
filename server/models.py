@@ -64,8 +64,10 @@ class BlogPost(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(50))
     blog_content = db.Column(db.String(5000))
-    publication_date = db.Column(db.DateTime, server_default=db.func.nom())
+    publication_date = db.Column(db.DateTime, server_default=db.func.now())
+    # publication_date = db.Column(db.String)
     edited_at = db.Column(db.DateTime, onupdate=db.func.now())
+    # edited_at = db.Column(db.String)
     
     user_id = db.Column(db.Integer(), db.ForeignKey('user.id'))
 
@@ -83,7 +85,7 @@ class Comment(db.Model):
     __tablename__ = 'comment'
     id = db.Column(db.Integer, primary_key=True)
     comment_content = db.Column(db.String(250))
-    publication_date = db.Column(db.DateTime, server_default=db.func.nom())
+    publication_date = db.Column(db.DateTime, server_default=db.func.now())
     edited_at = db.Column(db.DateTime, onupdate=db.func.now())
 
     user_id = db.Column(db.Integer(), db.ForeignKey('user.id'))
