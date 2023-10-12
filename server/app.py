@@ -99,6 +99,7 @@ class CategorySchema(ma.SQLAlchemySchema):
 category_schema = CategorySchema()
 categories_schema = CategorySchema(many=True)
 
+# Login and Signup are both adding users to the db. Both generate 500 errors. 
 
 class Signup(Resource):
     def post(self):
@@ -140,8 +141,6 @@ class Login(Resource):
 
         request_json = request.get_json()
 
-        # username = request_json.get('username')
-        # password = request_json.get('password')
         username = request_json['username']
         password = request_json['password']
 

@@ -59,14 +59,30 @@
 07. [] Sessions and Cookies
 
 
+
+# Validation Routes 
+### 1. Signup
+    [x] POST (Successfully persist to the db, but still generates a 500?)
+### CheckSession
+    [] GET (user_id) "message": "The method is not allowed for the requested URL."
+### Login
+    [x] POST (Login and Signup are both adding users to the db. Both generate 500 errors.) 
+### Logout
+    [] DELETE "message": "The method is not allowed for the requested URL. (How can I see if the session was succesfully deleted?)
+
+Routes working: 66% (12/18) 
+Repeated Errors: 3
+1. TypeError: The view function for 'user_by_id' did not return a valid response. The function either returned None or ended without a return statement.
+2. TypeError: object of type 'NoneType' has no len()
+3. TypeError: 'Comment' object is not iterable (just on DELETE method of comments)
+
 # Routes
 ### 1. users():
     [x] GET
 ### 2. user_by_id():
     [x] GET
-    [x] POST (ValueError: username field is required)
+    [x] POST 
     [] PATCH (TypeError: The view function for 'user_by_id' did not return a valid response. The function either returned None or ended without a return statement.)
-
     [x] DELETE 
 ### 3. blog_posts():
     [x] GET
