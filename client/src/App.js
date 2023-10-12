@@ -1,4 +1,5 @@
-//  rafce
+// rafce
+// Double click, hit F2 to highlight all instances of word.
 
 import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -35,7 +36,7 @@ function App() {
     })
   }, []);
 
-  if (!user) return <Home onLogin={setUser} />;
+  // if (!user) return <Home onLogin={setUser} />;
 
   return (
     <Router>

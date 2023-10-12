@@ -19,7 +19,7 @@
 08. [x] At least one data type validation.
 09. [x] At least one string/number format validation.
 10. [x] Connect the client and server using fetch().
-        - [] [optional/highly recommended] Implement something new not taught in the curriculum. (Check in with your instructor to ensure the scope of your idea is appropriate.)
+        - [] [optional/highly recommended] Implement something new not taught in the curriculum. (React BootStrap)
         - [] [optional/highly recommended] Implement useContext or Redux.
         - [] [optional/highly recommended] Fully deploy and host your project.
 
@@ -82,6 +82,7 @@ Repeated Errors: 3
 ### 2. user_by_id():
     [x] GET
     [x] POST 
+### !!! Start with PATCH for full CRUDit !!!
     [] PATCH (TypeError: The view function for 'user_by_id' did not return a valid response. The function either returned None or ended without a return statement.)
     [x] DELETE 
 ### 3. blog_posts():
