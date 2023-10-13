@@ -279,6 +279,9 @@ def blog_posts():
 
         )
 
+        # unknown function: now() is an issue in the migration.  
+        # Always downgrade migrations prior to making changes directly to a migrations file. 
+
         db.session.add(blog_post)
         db.session.commit()
 
