@@ -183,10 +183,6 @@ def cookies():
 def index(): 
     return '<h1>HackStacker</h1>'
 
-
-
-
-
 @app.route('/users/<int:id>', methods=['GET', 'PATCH', 'DELETE'])
 def user_by_id(id):
         user = User.query.filter_by(id=id).first()
@@ -197,7 +193,6 @@ def user_by_id(id):
                 user_schema.dump(user),
                 200
             )
-            print(response)
             return response 
     
         elif request.method == 'PATCH':
@@ -281,7 +276,8 @@ def blog_posts():
 
         # unknown function: now() is an issue in the migration.  
         # Always downgrade migrations prior to making changes directly to a migrations file. 
-
+        # Add Tom Tobar to Linkedin. 
+        
         db.session.add(blog_post)
         db.session.commit()
 
@@ -308,8 +304,8 @@ def blog_post_by_id(id):
         )
 
     elif request.method == 'PATCH':
-        for attr in request.form:
-            setattr(blog_post, attr, request.get_json(attr))
+        for attr in request.get_json():
+            setattr(blog_post, attr, request.get_json()[attr])
 
             db.session.add(blog_post)
             db.session.commit()
@@ -334,6 +330,42 @@ def blog_post_by_id(id):
 
         return response 
 
+@app.route('/comment/<int:id>', methods=['GET', 'PATCH', 'DELETE'])
+def comment_by_id(id):
+    comment = Comment.query.filter_by(id=id).first()
+
+    if request.method == 'GET':
+
+        return make_response(
+            comment_schema.dump(comment),
+            200
+        )
+    
+    
+    elif request.method == 'PATCH':
+        for attr in request.get_json():
+            setattr(comment, attr, request.get_json()[attr])
+
+            db.session.add(comment)
+            db.session.commit()
+
+            # ipdb.set_trace()
+            return make_response(
+                comments_schema.dump(comment),
+                200
+            ) 
+        
+    elif request.method == 'DELETE':
+        db.session.delete(comment)
+        db.session.commit()
+
+
+        response = make_response(
+            comments_schema.dump(comment),
+            200
+        )
+
+        return response 
 
 @app.route('/comments', methods=['GET', 'POST'])
 def comments():
@@ -359,43 +391,6 @@ def comments():
             comments_schema.dump(comment),
             201
         )
-
-@app.route('/comment/<int:id>', methods=['GET', 'PATCH', 'DELETE'])
-def comment_by_id(id):
-    comment = Comment.query.filter_by(id=id).first()
-
-    if request.method == 'GET':
-
-        return make_response(
-            comment_schema.dump(comment),
-            200
-        )
-    
-    
-    elif request.method == 'PATCH':
-        for attr in request.form:
-            setattr(comment, attr, request.get_json(attr))
-
-            db.session.add(comment)
-            db.session.commit()
-
-
-            return make_response(
-                comments_schema.dump(comment),
-                200
-            ) 
-        
-    elif request.method == 'DELETE':
-        db.session.delete(comment)
-        db.session.commit()
-
-
-        response = make_response(
-            comments_schema.dump(comment),
-            200
-        )
-
-        return response 
 
 
 @app.route('/categories', methods=['GET','POST'])

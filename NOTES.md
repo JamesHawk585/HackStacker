@@ -79,27 +79,30 @@ Repeated Errors: 3
 # Routes
 ### 1. users():
     [x] GET
+    [x] POST 
 ### 2. user_by_id():
     [x] GET
-    [x] POST 
-### !!! Start with PATCH for full CRUDit !!!
-    [] PATCH (TypeError: The view function for 'user_by_id' did not return a valid response. The function either returned None or ended without a return statement.)
+    [x] PATCH (TypeError: The view function for 'user_by_id' did not return a valid response. The function either returned None or ended without a return statement.)
     [x] DELETE 
 ### 3. blog_posts():
     [x] GET
+    [x] POST 
+        - [] Foreign relationship to user_id returns null.
 ### 4. blog_post_by_id():
     [x] GET
-    [] POST (TypeError: object of type 'NoneType' has no len())
-    [] PATCH (TypeError: The view function for 'blog_post_by_id' did not return a valid response. The function either returned None or ended without a return statement.)
+    [x] PATCH
     [x] DELETE
 
 ### 5. comments():
     [x] GET
 ### 6. comment_by_id():
     [x] GET
-    [] POST (TypeError: object of type 'NoneType' has no len())
-    [] PATCH (TypeError: The view function for 'comment_by_id' did not return a valid response. The function either returned None or ended without a return statement.)
-    [] DELETE (TypeError: 'Comment' object is not iterable)
+    [x] POST 
+        - [] Sucessfuly posts comment, but persists null for user_id and throws 500 error.
+    [x] PATCH 
+        - [] Sucessfuly patches comment, but returns TypeError: 'Comment' object is not iterable.
+    [x] DELETE 
+        - [] Successfully deletes comment,  but returns TypeError: 'Comment' object is not iterable.
 
 ### 7. categories():
     [x] GET

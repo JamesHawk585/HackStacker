@@ -51,7 +51,6 @@ export default function SignUpForm() {
     const validate = Yup.object({
       firstName: Yup.string().required("Firstname Required!"),
       lastName: Yup.string(),
-      email: Yup.string().email("Email is invalid!").required("Email Required!"),
       password: Yup.string()
         .min(4, "Password must be minimum 4 digits!")
         .required("Password Required!"),
