@@ -2,7 +2,10 @@ import React from 'react'
 
 const BlogCard = () => {
   return (
-    <div>BlogCard</div>
+    <li className="card">
+        <h4>{"blog title"}</h4>
+        <p>{"Blog Content"}</p>
+    </li>
   )
 }
 
