@@ -1,8 +1,14 @@
 import React from 'react'
+import Header from "./Header"
+import BlogPage from './BlogPage'
 
 const App = () => {
   return (
-    <div>App</div>
+    <div classname="app">
+        <Header/>
+        <BlogPage/>
+    </div>
+
   )
 }
 
