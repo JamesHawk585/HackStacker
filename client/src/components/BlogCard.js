@@ -3,7 +3,6 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 
 function BlogCard({ blog }) {
-    console.log(blog)
     const {id, author, title, blogContent} = blog
   return (
     <Card className="blogcard">

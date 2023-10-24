@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import BlogSearch from './BlogSearch'
 import BlogList from './BlogList'
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 function BlogPage() {
 const [blogs, setBlogs] = useState([])

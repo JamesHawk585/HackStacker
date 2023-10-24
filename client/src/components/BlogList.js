@@ -2,9 +2,8 @@ import React from 'react'
 import BlogCard from './BlogCard'
 
 function BlogList({ blogs }) {
-console.log(blogs)
   const blogList = blogs.map((blog) => <BlogCard key={blog.id} blog={blog}/>)
-  console.log(blogList)
+  console.log(blogList[1])
 
   return (
     <ul className="cards">{blogList}</ul>
