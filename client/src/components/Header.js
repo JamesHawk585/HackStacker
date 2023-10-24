@@ -5,7 +5,7 @@ const Header = () => {
     <header>
         <h1>
             HackStacker
-            <span classname="logo" role="img">
+            <span className="logo" role="img">
             💻
             </span>
         </h1>
