@@ -4,7 +4,7 @@ import React from 'react'
 
 const NewBlogForm = () => {
   return (
-    <div classname="new-blog-form">
+    <div className="new-blog-form">
       <h2>NewBlogForm</h2>
         <form>
           <input type="text" title="title" placeholder="Blog Title"/>

@@ -8,13 +8,13 @@ const [blogs, setBlogs] = useState([])
     useEffect(() => {
         fetch("http://127.0.0.1:5000/blog_posts")
         .then(r => r.json())
-        .then(console.log)
+        .then(setBlogs)
     },[])
 
   return (
     <main>
         <BlogSearch/>
-        <BlogList/>
+        <BlogList blogs={blogs}/>
     </main>
   )
 }

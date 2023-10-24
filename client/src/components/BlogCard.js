@@ -1,12 +1,22 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card';
 
-const BlogCard = () => {
+function BlogCard({ blog }) {
+    console.log(blog)
+    const {id, author, title, blogContent} = blog
   return (
-    <li className="card">
-        <h4>{"blog title"}</h4>
-        <p>{"Blog Content"}</p>
-    </li>
-  )
-}
+    <Card className="blogcard">
+    <Card.Body>
+      <Card.Title>{blog.title}</Card.Title>
+        <Card.Text>Author: {blog.author}</Card.Text>
+        <Card.Text>Publication Date: {blog.publication_date} </Card.Text>
+      <Button variant="primary">Read Post</Button>
+    </Card.Body>
+  </Card>
+  );
+};
+
+
 
 export default BlogCard
