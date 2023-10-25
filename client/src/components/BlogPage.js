@@ -12,10 +12,16 @@ const [blogs, setBlogs] = useState([])
         .then(setBlogs)
     },[])
 
+console.log("blogs in BlogPage.js before bing passed to BlogList.js:", blogs)
+
+    function handleAddBlog(newBlog) {
+      // console.log(newBlog)
+    }
+
   return (
     <main>
         <BlogSearch/>
-        <BlogList blogs={blogs}/>
+        <BlogList blogs={blogs} onAddBlogs={handleAddBlog}/>
     </main>
   )
 }

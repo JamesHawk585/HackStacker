@@ -1,36 +1,47 @@
 import React, { useState } from 'react'
 
 
-// Refactor with Formik
-// Form imput is controlled via state
-
-const NewBlogForm = () => {
+function NewBlogForm({ onAddBlog }) {
   const [formData, setFormData] = useState({
     title: "",
-    blogcontent: ""
+    blog_content: ""
   })
 
-  // Always pass the event into an event handler.
-  // Spread operator makes a shallow copy of an array in its current form.
   function handleChange(e) {
     if (e.target.name === 'title') {
       setFormData({...formData, title: e.target.value});
     } else {
-    if (e.target.name === 'blogcontent') {
-      setFormData({...formData, blogcontent: e.target.value})
+    if (e.target.name === 'blog_content') {
+      setFormData({...formData, blog_content: e.target.value})
       }
     }
   }
 
+  
 
-  
-  
-  
-  console.log(formData)
+
+  function handleSubmit(e) {
+    e.preventDefault()
+
+    const configObj = {
+      method: "POST", 
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(formData),
+    }
+
+    fetch("http://127.0.0.1:5000/blog_posts", configObj)
+    .then(r => r.json())
+    .then(console.log)
+  }
+
+
+  console.log("formData:", formData)
   return (
     <div className="new-blog-form">
       <h2>New Post</h2>
-        <form>
+        <form onSubmit={handleSubmit}>
           <input 
             type="text" 
             name="title"
@@ -40,9 +51,9 @@ const NewBlogForm = () => {
             />
           <input 
             type="text" 
-            name="blogcontent" 
+            name="blog_content" 
             placeholder="Blog Content"
-            value={formData.blogcontent}
+            value={formData.blog_content}
             onChange={handleChange} 
           />
           <button type="submit">Post Blog</button>

@@ -29,7 +29,6 @@
 
 ### MVP: As a user, I can:
 
-
 01. [] User:
         - [] Sign up for an account 
         - [] Log in and remain logged in
@@ -49,16 +48,6 @@
         - [] Filter existing blog post to return by category
 
 
-### Short To-Do: 
-01. [] Test server-side routes with Postman
-02. [] Build out BlogPost.js (GET, PATCH, DELETE)
-03. [] Build out PostBlog.js (POST with Formik)
-04. [] Login
-05. [] Logout
-06. [] Signup
-07. [] Sessions and Cookies
-
-
 
 # Validation Routes 
 ### 1. Signup
@@ -69,12 +58,6 @@
     [x] POST (Login and Signup are both adding users to the db. Both generate 500 errors.) 
 ### Logout
     [] DELETE "message": "The method is not allowed for the requested URL. (How can I see if the session was succesfully deleted?)
-
-Routes working: 66% (12/18) 
-Repeated Errors: 3
-1. TypeError: The view function for 'user_by_id' did not return a valid response. The function either returned None or ended without a return statement.
-2. TypeError: object of type 'NoneType' has no len()
-3. TypeError: 'Comment' object is not iterable (just on DELETE method of comments)
 
 # Routes
 ### 1. users():
@@ -87,7 +70,7 @@ Repeated Errors: 3
 ### 3. blog_posts():
     [x] GET
     [x] POST 
-        - [] Foreign relationship to user_id returns null.
+        - [] Successfully posts to db, but foreign relationship to user_id returns null.
 ### 4. blog_post_by_id():
     [x] GET
     [x] PATCH

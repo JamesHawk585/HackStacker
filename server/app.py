@@ -13,9 +13,11 @@ import datetime
 from config import app, db, api, ma
 from models import User, BlogPost, Comment, Category, db
 from sqlalchemy.exc import IntegrityError
+from marshmallow import fields
 
 
 class UserSchema(ma.SQLAlchemySchema):
+    id = fields.Int(dump_only=True)
 
     class Meta:
         model = User
@@ -38,7 +40,9 @@ class UserSchema(ma.SQLAlchemySchema):
 user_schema = UserSchema()
 users_schema = UserSchema(many=True)
 
+
 class BlogPostSchema(ma.SQLAlchemySchema):
+        id = fields.Int(dump_only=True)
     
         class Meta:
             model = BlogPost
@@ -61,6 +65,7 @@ blog_post_schema = BlogPostSchema()
 blog_posts_schema = BlogPostSchema(many=True)
 
 class CommentSchema(ma.SQLAlchemySchema):
+    id = fields.Int(dump_only=True)
         
     class Meta:
         model = Comment
@@ -80,6 +85,7 @@ comment_schema = CommentSchema()
 comments_schema = CommentSchema(many=True)
 
 class CategorySchema(ma.SQLAlchemySchema):
+    id = fields.Int(dump_only=True)
             
     class Meta:
         model = Category
