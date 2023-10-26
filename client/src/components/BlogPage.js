@@ -3,8 +3,14 @@ import BlogSearch from './BlogSearch'
 import BlogList from './BlogList'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
+// When Usestate relies on fetched data, Usestate must be initialized in the same component as the fetch request. 
+// Controlled components are componenets whose stateful features are controlled by a state object in a parent component. 
+
 function BlogPage() {
 const [blogs, setBlogs] = useState([])
+const [searchTerm, setSearchTerm] = useState("")
+
+// The Search.js componenet needs access to search and setSearch. 
 
     useEffect(() => {
         fetch("http://127.0.0.1:5000/blog_posts")
@@ -12,16 +18,14 @@ const [blogs, setBlogs] = useState([])
         .then(setBlogs)
     },[])
 
-console.log("blogs in BlogPage.js before bing passed to BlogList.js:", blogs)
+    const filteredBlogs = blogs.filter(blog => blog.title.toLowerCase().includes(searchTerm.toLowerCase()))
+    console.log(filteredBlogs)
 
-    function handleAddBlog(newBlog) {
-      // console.log(newBlog)
-    }
-
+  console.log(searchTerm)
   return (
     <main>
-        <BlogSearch/>
-        <BlogList blogs={blogs} onAddBlogs={handleAddBlog}/>
+        <BlogSearch searchTerm={searchTerm} setSearchTerm={setSearchTerm}/>
+        <BlogList blogs={filteredBlogs}/>
     </main>
   )
 }
