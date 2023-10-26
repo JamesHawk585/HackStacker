@@ -11,7 +11,7 @@ import {
 
 const NavBar = () => {
   return (
-    <Router>
+    <Router className="nav">
                 <div>
                     <ul>
                         <li>
