@@ -21,7 +21,6 @@ class UserSchema(ma.SQLAlchemySchema):
 
     class Meta:
         model = User
-    
     username = ma.auto_field()
     bio = ma.auto_field()
     blog_posts = ma.auto_field()
@@ -51,6 +50,7 @@ class BlogPostSchema(ma.SQLAlchemySchema):
         blog_content = ma.auto_field()
         publication_date = ma.auto_field()
         edited_at = ma.auto_field()
+        user_id = ma.auto_field()
     
         url = ma.Hyperlinks(
             {
