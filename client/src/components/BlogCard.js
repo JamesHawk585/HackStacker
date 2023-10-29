@@ -4,11 +4,13 @@ import Card from 'react-bootstrap/Card';
 
 function BlogCard({ blog }) {
     const {id, author, title, blogContent} = blog
+
+
   return (
     <Card className="blogcard">
     <Card.Body>
       <Card.Title>{blog.title}</Card.Title>
-        <Card.Text>Author: {blog.author}</Card.Text>
+        <Card.Text>Author: {blog.user_id}</Card.Text>
         <Card.Text>Publication Date: {blog.publication_date} </Card.Text>
       <Button variant="primary">Read Post</Button>
     </Card.Body>
