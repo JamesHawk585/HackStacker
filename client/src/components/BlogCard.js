@@ -15,7 +15,15 @@ function BlogCard({ blog }) {
 
   const {bio, comments, username} = users
 
-  console.log(users.userId)
+  const authorList = users.map(user => (
+    <Author key={crypto.randomUUID()} user={user}/>
+  ))
+
+  console.log(authorList)
+
+
+
+  // console.log(users.username)
 
   // map() 
 
@@ -31,7 +39,7 @@ function BlogCard({ blog }) {
       <Card.Title>{title}</Card.Title>
         <Card.Text>Author: {username}</Card.Text>
         <Card.Text>Publication Date: {publication_date} </Card.Text>
-      <Button variant="primary">Read Post</Button>
+      <Button variant="primary" className="postbutton">Read Post</Button>
     </Card.Body>
   </Card>
   );
