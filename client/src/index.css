@@ -5,6 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: grey
 }
 
 code {
@@ -17,12 +18,31 @@ header {
   font-weight: 900;
   text-align: center;
   padding: 0.5rem 0;
+  color: white;
+  background-color: black
 }
 
 .logo {
-  text-align: center;
+  text-align: left;
+  background-color: black
 }
 
 .blogcard {
   text-align: center;
 }
+
+.cards {
+  align-items: center;
+  padding: 50px;
+  margin: auto;
+}
+
+.nav {
+  margin: auto;
+  color: black;
+}
+
+.searchbar {
+  text-align: center;
+}
+

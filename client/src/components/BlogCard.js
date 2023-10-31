@@ -15,7 +15,9 @@ function BlogCard({ blog }) {
 
   const {bio, comments, username} = users
 
-  console.log(users.userId.username)
+  console.log(users.userId)
+
+  // map() 
 
   // prints the specified username attribute of the users object for each card appended to the dom. 
 
