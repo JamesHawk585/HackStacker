@@ -1,7 +1,10 @@
 import React from 'react'
 
-export const Author = () => {
+
+function Author({ username }) {
   return (
-    <div>Author</div>
+    <div>Author: {username}</div>
   )
 }
+
+export default Author 

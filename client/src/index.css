@@ -46,3 +46,12 @@ header {
   text-align: center;
 }
 
+.postbutton {
+  background-color: black;
+  border-color: black;
+}
+
+.blogcontent {
+  text-align: left;
+}
+

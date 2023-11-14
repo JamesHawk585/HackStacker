@@ -1,8 +1,8 @@
 import React from 'react'
 
-const BlogPost = () => {
+const BlogPost = ({blog_content}) => {
   return (
-    <div>BlogPost</div>
+    <div>{blog_content}</div>
   )
 }
 
