@@ -40,7 +40,7 @@ function BlogCard({ blog }) {
           {matchingUsers.map((user) => (
             <Author
               key={user.id}
-              username={users.username}
+              username={user.username}
             />
           ))}
       <Card.Text>Publication Date: {publication_date} </Card.Text>

@@ -182,6 +182,9 @@ def expiration_date(delay):
 def cookies():
     response = make_response({'message': "cookies route"}, 200)
 
+    # 39:09
+
+
 
     return response
 # response.set_cookie("current_user", "jmhw", expires=expiration_date(30), httponly=True)
