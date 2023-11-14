@@ -10,8 +10,14 @@ function BlogPage() {
 const [blogs, setBlogs] = useState([])
 const [searchTerm, setSearchTerm] = useState("")
 
-// The Search.js componenet needs access to search and setSearch. 
+  // 1. grab the user_id from blogs array of objects
+  // 2. Make a fetch request to "/users" by user_id. Retrun the username associated with the user_id 
+  // 3. pass username down to blog card. Append Author name to dom in blog card 
 
+
+
+// user_id is passed to BlogList via the blogs 
+// Create a fetch request in BlogList that will get the username from the users table and append the username to BlogCard.js
     useEffect(() => {
         fetch("http://127.0.0.1:5000/blog_posts")
         .then(r => r.json())
@@ -19,9 +25,7 @@ const [searchTerm, setSearchTerm] = useState("")
     },[])
 
     const filteredBlogs = blogs.filter(blog => blog.title.toLowerCase().includes(searchTerm.toLowerCase()))
-    console.log(filteredBlogs)
 
-  console.log(searchTerm)
   return (
     <main>
         <BlogSearch searchTerm={searchTerm} setSearchTerm={setSearchTerm}/>

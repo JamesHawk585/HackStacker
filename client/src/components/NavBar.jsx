@@ -11,17 +11,17 @@ import {
 
 const NavBar = () => {
   return (
-    <Router className="nav">
+    <Router >
                 <div>
                     <ul>
                         <li>
-                            <Link to="/">HackStacker</Link>
+                            <Link className="nav" to="/">HackStacker</Link>
                         </li>
                         <li>
-                            <Link to="/profile">Profile</Link>
+                            <Link className="nav" to="/profile">Profile</Link>
                         </li>
                         <li>
-                            <Link to="/NewBlogForm">Post</Link>
+                            <Link className="nav" to="/NewBlogForm">Post</Link>
                         </li>
                     </ul>
                     <hr />
