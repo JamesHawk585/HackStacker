@@ -13,7 +13,7 @@ function BlogCard({ blog }) {
     // console.log(blog_content)
 
   useEffect(() => {
-    fetch(`http://127.0.0.1:5000/users`)
+    fetch(`http://127.0.0.1:5555/users`)
     .then(r => r.json())
     .then(setUsers)
   },[])
