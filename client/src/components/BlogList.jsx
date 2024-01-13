@@ -3,27 +3,37 @@ import BlogCard from './BlogCard'
 
 function BlogList({ blogs, users }) {
 
-//  For some reason, we are getting the array of twenty user objects appended to the dom when we console.log(users)
+  const {usernames, allUserBlogPosts, allUserComments, allUserBios, allUserIds} = users
 
-// The entire users array of objects is being logged tot he console every time a blog card is rendered in the blog list component. This mean each blog card has access to each user object. Simply filter the array of blog objects to return user.userId === blog.userId 
+  // const findMatchingUser = users.find((user) => {
+  //   console.log('user.id: ', user.id)
+  //   if (blog.user_id === user.id) {
+  //     console.log(user)
+  //     console.log('typeof userId', typeof(user.id))
+  //     console.log('typeof blogPostUserId', typeof(blogPostUserId))
+  //     return user
+  //   } else {
+  //   console.log('No match found')
+  // }})
 
-// Consider refactoring. Fetching all users for each blog card rendered will be constly at scale. 
-
-  // const authorList = users.map((author) => {
-  //   return author.name
-  // })
-
-  // console.log("BlogList.jsx authorList variable:", authorList)
+  // const { username, blog_posts, comments, bio, userId } = findMatchingUser || {};
 
 
 
-  const bList = blogs.map(blog => (
-  <BlogCard 
-    key={blog.id} 
-    blog={blog}
-    users={users}
-  />
-  ))
+  const bList = blogs.map(blog => {
+    const matchingUser = users.find(user => user.id === blog.user_id);
+    console.log('matchingUser: ', matchingUser)
+    return (
+      <BlogCard 
+        key={blog.id} 
+        blog={blog}
+        user={matchingUser}
+      />
+    );
+  });
+
+  // After console.logging user.id and blog.id, it seems blog.id is returning the id of the blog post, not the id of the user that authored ther blog post. No blog.id should exceed 20, becuase we only have twenty users. Some authors will have more than one blog. 
+
 
   
   return <ul className="cards">{bList}</ul>
