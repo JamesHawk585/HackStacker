@@ -9,9 +9,13 @@ function BlogList({ blogs, users }) {
 
 // Consider refactoring. Fetching all users for each blog card rendered will be constly at scale. 
 
-  const authorList = users.map((author) => {
-    return author.name
-  })
+  // const authorList = users.map((author) => {
+  //   return author.name
+  // })
+
+  // console.log("BlogList.jsx authorList variable:", authorList)
+
+
 
   const bList = blogs.map(blog => (
   <BlogCard 

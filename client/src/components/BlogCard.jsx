@@ -1,41 +1,35 @@
 import React, { useState, useEffect } from 'react'
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
-import Author from './Author';
-import BlogSearch from './BlogSearch';
 import BlogPost from './BlogPost';
 
 function BlogCard({ blog, users }) {
     const {id, userId, title, blog_content, publication_date} = blog
-    const {username, blog_posts, comments, bio} = users
+    const {username, blog_posts, comments, bio, UserId} = users
     const [showPost, setShowPost] = useState(false)
 
-    console.log(users)
+    console.log('users inside BlogCard.jsx', users)
 
   let contentArray = Array.isArray(blog_content) ? blog_content : [blog_content];
 
-  const matchingUsers = users.filter((user) => {
-    return user.id === userId
-  });
-
-  console.log(matchingUsers)
 
   function handleClick(e) {
     setShowPost(prevShowPost => !showPost)
   }
 
-  // The issue seems to be with the way we are creating a new Author component for every 
+  const findMatchingUser = users.find((user) => {
+    if (user.id === userId) {
+      const matchingUser = {username, blog_posts, comments, bio, UserId}
+      return user
+    }
+  })
+
+  // console.log('users inside BlogCard.jsx', matchingUser)
 
   return (
     <Card className="blogcard">
     <Card.Body>
       <Card.Title>{title}</Card.Title>
-          {users.map((user) => (
-            <Author
-              key={user.id}
-              username={user.username}
-            />
-          ))}
       <Card.Text>Publication Date: {publication_date} </Card.Text>
       <Card.Text className="blogcontent">
         {showPost && 
@@ -43,6 +37,7 @@ function BlogCard({ blog, users }) {
               <BlogPost key={index} blog_content={blog_content} />
             ))}
       </Card.Text>
+      <Card.Text>{`Author: ${findMatchingUser?.username}`}</Card.Text>
 
       <Button variant="primary" className="postbutton" onClick={handleClick}>Read Post</Button>
     </Card.Body>
