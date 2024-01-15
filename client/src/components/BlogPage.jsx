@@ -13,10 +13,11 @@ const [searchTerm, setSearchTerm] = useState("")
 const [filteredUsers, setFilteredUsers] = useState(users);
 
 useEffect(() => {
-  fetch(`http://127.0.0.1:5000/users`)
+  fetch(`http://127.0.0.1:5555/users`)
   .then(r => r.json())
   .then(setUsers)
 }, []);
+
 
 
 const handleFilter = (event) => {
@@ -26,7 +27,7 @@ const handleFilter = (event) => {
 };
 
 useEffect(() => {
-    fetch("http://127.0.0.1:5000/blog_posts")
+    fetch("http://127.0.0.1:5555/blog_posts")
     .then(r => r.json())
     .then(setBlogs)
 },[])
