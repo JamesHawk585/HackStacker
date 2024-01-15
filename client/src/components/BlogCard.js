@@ -5,51 +5,71 @@ import Author from './Author';
 import BlogSearch from './BlogSearch';
 import BlogPost from './BlogPost';
 
-function BlogCard({ blog, users }) {
-    const {id, userId, title, blog_content, publication_date} = blog
-    const {username, blog_posts, comments, bio} = users
-    const [showPost, setShowPost] = useState(false)
-
-    console.log(users)
+function BlogCard({ blog, users, filteredUsers }) {
+  const { id, user_id, title, blog_content, publication_date } = blog;
+  const [showPost, setShowPost] = useState(false);
 
   let contentArray = Array.isArray(blog_content) ? blog_content : [blog_content];
 
-  const matchingUsers = users.filter((user) => {
-    return user.id === userId
+  console.log(users)
+
+  const matchingUser = users.find((user) => {
+    console.log("user.id inside matchingUser", user.id)
+    console.log("blog.user inside matchingUser", blog.user_id)
+    debugger
+    return user.id === blog.user_id;
   });
 
-  console.log(matchingUsers)
+  // mathingUser is returning undefined because the find() method could not find user.id === blog.userId. 
+
+  console.log("user_id", user_id)
+  console.log("matchingUser", matchingUser)
+
+  // Why isnt the author componernt beingrendered once for each bog VarDate, shoewing the author of each blog post? 
 
   function handleClick(e) {
-    setShowPost(prevShowPost => !showPost)
+    setShowPost((prevShowPost) => !prevShowPost);
   }
-
-  // The issue seems to be with the way we are creating a new Author component for every 
 
   return (
     <Card className="blogcard">
-    <Card.Body>
-      <Card.Title>{title}</Card.Title>
-          {users.map((user) => (
-            <Author
-              key={user.id}
-              username={user.username}
-            />
-          ))}
-      <Card.Text>Publication Date: {publication_date} </Card.Text>
-      <Card.Text className="blogcontent">
-        {showPost && 
-            contentArray.map((blog_content, index) => (
-              <BlogPost key={index} blog_content={blog_content} />
-            ))}
-      </Card.Text>
-
-      <Button variant="primary" className="postbutton" onClick={handleClick}>Read Post</Button>
-    </Card.Body>
-  </Card>
+      <Card.Body>
+        <Card.Title>{title}</Card.Title>
+        {matchingUser && (
+          <Author
+            key={matchingUser.id}
+            username={matchingUser.username}
+            blog_posts={matchingUser.blog_posts}
+            comments={matchingUser.comments}
+            bio={matchingUser.bio}
+          />
+        )}
+        <Card.Text>Publication Date: {publication_date} </Card.Text>
+        <Card.Text className="blogcontent">
+  {showPost &&
+    contentArray.map((blog_content, index) => (
+      <div key={index}>
+        <Author
+          key={blog.id}
+          username={matchingUser.username}
+          blog_posts={matchingUser.blog_posts}
+          comments={matchingUser.comments}
+          bio={matchingUser.bio}
+        />
+        <BlogPost key={index} blog_content={blog_content} />
+      </div>
+    ))}
+</Card.Text>
+        <Button
+          variant="primary"
+          className="postbutton"
+          onClick={handleClick}
+        >
+          Read Post
+        </Button>
+      </Card.Body>
+    </Card>
   );
-};
+}
 
-
-
-export default BlogCard
+export default BlogCard;
