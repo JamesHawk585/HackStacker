@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Author from './Author';
-import BlogSearch from './BlogSearch';
 import BlogPost from './BlogPost';
 
 function BlogCard({ blog, users, filteredUsers }) {
@@ -16,7 +15,6 @@ function BlogCard({ blog, users, filteredUsers }) {
   const matchingUser = users.find((user) => {
     console.log("user.id inside matchingUser", user.id)
     console.log("blog.user inside matchingUser", blog.user_id)
-    debugger
     return user.id === blog.user_id;
   });
 
@@ -49,13 +47,6 @@ function BlogCard({ blog, users, filteredUsers }) {
   {showPost &&
     contentArray.map((blog_content, index) => (
       <div key={index}>
-        <Author
-          key={blog.id}
-          username={matchingUser.username}
-          blog_posts={matchingUser.blog_posts}
-          comments={matchingUser.comments}
-          bio={matchingUser.bio}
-        />
         <BlogPost key={index} blog_content={blog_content} />
       </div>
     ))}
