@@ -31,7 +31,7 @@ function NewBlogForm({ onAddBlog }) {
       body: JSON.stringify(formData),
     }
 
-    fetch("http://127.0.0.1:5555/blog_posts", configObj)
+    fetch("http://127.0.0.1:5000/blog_posts", configObj)
     .then(r => r.json())
     .then(console.log)
   }

@@ -10,24 +10,25 @@ function BlogPage() {
 const [blogs, setBlogs] = useState([])
 const [users, setUsers] = useState([])
 const [searchTerm, setSearchTerm] = useState("")
-const [filteredUsers, setFilteredUsers] = useState(users);
 
 useEffect(() => {
-  fetch(`http://127.0.0.1:5555/users`)
+  fetch(`http://127.0.0.1:5000/users`)
   .then(r => r.json())
   .then(setUsers)
 }, []);
 
 
+console.log(users)
 
-const handleFilter = (event) => {
-  const value = event.target.value;
-  const filtered = users.filter(user => user.name.includes(value));
-  setFilteredUsers(filtered);
-};
 
+  // 1. grab the user_id from blogs array of objects
+  // 2. Make a fetch request to "/users" by user_id. Return the username associated with the user_id 
+  // 3. pass username down to blog card. Append Author name to dom in blog card 
+
+// user_id is passed to BlogList via the blogs 
+// Create a fetch request in BlogList that will get the username from the users table and append the username to BlogCard.js
 useEffect(() => {
-    fetch("http://127.0.0.1:5555/blog_posts")
+    fetch("http://127.0.0.1:5000/blog_posts")
     .then(r => r.json())
     .then(setBlogs)
 },[])
@@ -37,8 +38,7 @@ useEffect(() => {
   return (
     <main>
         <BlogSearch searchTerm={searchTerm} setSearchTerm={setSearchTerm}/>
-        <BlogList blogs={filteredBlogs} users={users} filteredUsers={filteredUsers}/>
-        
+        <BlogList blogs={filteredBlogs} users={users}/>
     </main>
   )
 }
