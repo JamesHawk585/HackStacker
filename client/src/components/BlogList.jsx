@@ -41,4 +41,3 @@ function BlogList({ blogs, users }) {
 }
 
 export default BlogList
-
