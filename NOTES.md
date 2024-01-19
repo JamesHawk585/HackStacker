@@ -34,8 +34,8 @@
         - [] Log in and remain logged in
         - [] Log out
 05. [] Blog Posts: 
-        - [] Create new post
-        - [] Read all posts  
+        - [x] Create new post
+        - [x] Read all posts  
         - [] Update my posts
         - [] Delete my posts
 06. [] Comments: 
