@@ -12,7 +12,7 @@ const [users, setUsers] = useState([])
 const [searchTerm, setSearchTerm] = useState("")
 
 useEffect(() => {
-  fetch(`http://127.0.0.1:5000/users`)
+  fetch(`http://127.0.0.1:5555/users`)
   .then(r => r.json())
   .then(setUsers)
 }, []);
@@ -28,7 +28,7 @@ console.log(users)
 // user_id is passed to BlogList via the blogs 
 // Create a fetch request in BlogList that will get the username from the users table and append the username to BlogCard.js
 useEffect(() => {
-    fetch("http://127.0.0.1:5000/blog_posts")
+    fetch("http://127.0.0.1:5555/blog_posts")
     .then(r => r.json())
     .then(setBlogs)
 },[])
